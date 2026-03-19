@@ -2,8 +2,7 @@ import os, pty, sys, select, shutil
 
 def record(argv: list[str]):
     if not shutil.which(argv[0]):
-        print("Loopstation: File not found, check $PATH?", file=sys.stderr)
-        return
+        sys.exit("Loopstation: File not found, check $PATH?")
     else:
         print("--- LOOPSTATION: STARTING RECORDING ---")
 
@@ -11,21 +10,20 @@ def record(argv: list[str]):
 
     # we're child, become program
     if pid == 0:
-        try:
-            os.execvp(argv[0], argv)
-        except FileNotFoundError: # In case our shutil.which check fails
-            os.kill(os.getppid(), signal.SIGTERM)
-        finally:
-            return
+        return child_execvp(argv)
 
     # otherwise, we're parent
-    else:
-        transcript = parent_loop(master_fd)
-        finish_recording(transcript)
+    print(header := f"""$ {" ".join(argv)}\n""")
+    transcript = parent_loop(master_fd, header)
+    finish_recording(transcript)
 
-def parent_loop(master_fd):
-    transcript = f"""$ {" ".join(argv)}\n"""
-    print(transcript)
+def child_execvp(argv: list[str]):
+    try:
+        return os.execvp(argv[0], argv)
+    except FileNotFoundError: # In case our shutil.which check fails
+        os.kill(os.getppid(), signal.SIGTERM)
+
+def parent_loop(master_fd: int, transcript: str):
     try:
         while True:
             # readable, writeable, error
@@ -35,7 +33,22 @@ def parent_loop(master_fd):
             if master_fd in r:
                 data = os.read(master_fd, 1024)
                 if not data: break # child died
-                transcript += data.decode('utf-8') # TODO: can this fail? e.g. cat a bytestream
+                try:
+                    data_str = data.decode('utf-8')
+                except UnicodeDecodeError:
+                    # TODO: Mode to write bytes directly, maybe x ...
+                    sys.exit("Loopstation: Can't decode non UTF-8 bytes, exiting\n")
+                # TODO: Add stdout stream indicator, like [ ...
+                # Idea: .lpst files should all look like
+                # [char] input/output
+                # $ means command
+                # [ means output
+                # > means input
+                # x means bytes output
+                # Mode for additional tests?
+                # e.g. check pwd after
+
+                transcript += data_str
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
 
@@ -60,7 +73,7 @@ def parent_loop(master_fd):
     print("Loopstation: Recorded!")
     return transcript
 
-def finish_recording(transcript):
+def finish_recording(transcript: str):
     while True:
         match input("Loopstation: [s]ave/[v]iew recording/[q]uit - "):
             case 'v':
@@ -71,19 +84,16 @@ def finish_recording(transcript):
                 print("\nLoopstation: Exiting without saving transcript")
                 return
             case 's':
+                # TODO: directory stuff
+                # TODO: Suggested test name
                 testname = input("Loopstation: Enter test name - ")
                 try:
                     with open(testname + '.lpst', 'x') as f:
                         f.write(transcript)
                     print("Loopstation: Saved to", testname)
+                    continue
                 except FileExistsError:
-                    print("Loopstation:", testname, "already exists! Pick a new name")
+                    print("Loopstation:", testname, "already exists!")
                 # TODO: handle other errors
             case _:
                 pass
-
-if __name__ == "__main__":
-    try:
-        record(sys.argv[1:])
-    except KeyboardInterrupt:
-        print("\nLoopstation: Interrupted, exiting without recording", file=sys.stderr)
