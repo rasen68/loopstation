@@ -1,8 +1,8 @@
 import os, pty, sys, select, shutil
 
-def record(argv: list[str]):
-    if not shutil.which(argv[0]):
-        sys.exit("Loopstation: File not found, check $PATH?")
+def record(program: str, args: list[str]):
+    if not shutil.which(program):
+        sys.exit(f"Loopstation: File {program} not found, check $PATH?")
     else:
         print("--- LOOPSTATION: STARTING RECORDING ---")
 
@@ -10,10 +10,13 @@ def record(argv: list[str]):
 
     # we're child, become program
     if pid == 0:
-        return child_execvp(argv)
+        return child_execvp([program] + args)
 
     # otherwise, we're parent
-    print(header := f"""$ {" ".join(argv)}\n""")
+    header = f"$ [{program}]"
+    for arg in args:
+        header += f" [{arg}]"
+    header += '\n'
     transcript = parent_loop(master_fd, header)
     finish_recording(transcript)
 

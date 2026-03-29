@@ -3,16 +3,16 @@ from record import record
 
 if __name__ == "__main__":
     match sys.argv[1:]:
-        case ['record', *args]:
+        case ['record', program, *args]:
             try:
-                record(args)
+                record(program, args)
             except KeyboardInterrupt:
                 sys.stderr.write("\nLoopstation: Interrupted, exiting without recording")
-        case ['synthesize', *args]:
+        case ['synthesize', program, *args]:
             print("WIP")
-        case ['playback', *args]:
+        case ['playback', program, *args]:
             print("WIP")
-        case ['rerecord', *args]:
+        case ['rerecord', program, *args]:
             print("WIP")
         case _:
             sys.exit(
