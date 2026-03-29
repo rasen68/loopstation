@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import sys
 from record import record
 
@@ -7,7 +8,7 @@ if __name__ == "__main__":
             try:
                 record(program, args)
             except KeyboardInterrupt:
-                sys.stderr.write("\nLoopstation: Interrupted, exiting without recording")
+                sys.stderr.write("\nLoopstation: Interrupted, exiting without recording\n")
         case ['synthesize', program, *args]:
             print("WIP")
         case ['playback', program, *args]:
