@@ -28,7 +28,7 @@ def child_execvp(argv: list[str]):
 
 def parent_loop(master_fd: int, transcript: str):
     # TODO: should probs be a queue instead, might solve big input problem
-    last_stdin = None
+    last_stdin = b''
     try:
         while True:
             # readable, writeable, error
@@ -40,6 +40,7 @@ def parent_loop(master_fd: int, transcript: str):
                 data = os.read(master_fd, 1024)
                 if not data: break # child died
                 try: # Decode data for transcript
+                    data = data.replace(b'\r\n', b'\n')
                     data_str = data.decode('utf-8')
                     prefix = "[ "
                 except UnicodeDecodeError:
@@ -56,16 +57,12 @@ def parent_loop(master_fd: int, transcript: str):
                 if '\n' in data_str[:-1]:
                     data_str = (data_str[:-1].replace('\n', '\n'+prefix)
                                 + data_str[-1:])
-                data_str = data_str.replace('\r\n', '\n')
                 transcript += data_str
 
                 # Write to stdout, subtracting last stdin to avoid duplication
-                # TODO: this doesnt work
-                sys.stdout.buffer.write(f"DATA: {data}\n".encode())
-                sys.stdout.buffer.flush()
                 if data.startswith(last_stdin):
-                    last_stdin = None
-                    data.removeprefix(last_stdin)
+                    data = data.removeprefix(last_stdin)
+                    last_stdin = b''
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
 
@@ -73,8 +70,6 @@ def parent_loop(master_fd: int, transcript: str):
             if sys.stdin in r:
                 data = os.read(sys.stdin.fileno(), 1024)
                 last_stdin = data
-                sys.stdout.buffer.write(f"LAST_STDIN: {last_stdin}\n".encode())
-                sys.stdout.buffer.flush()
                 os.write(master_fd, data)
 
                 # Tell transcript we read stdin
