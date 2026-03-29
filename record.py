@@ -106,14 +106,17 @@ def finish_recording(transcript: str):
             case 's':
                 # TODO: directory stuff
                 # TODO: Suggested test name
-                testname = input("Loopstation: Enter test name - ")
+                # TODO: windows vs unix
+                while not (name := input("Loopstation: Enter test name - ")):
+                    pass
                 try:
-                    with open(testname + '.lpst', 'x') as f:
+                    filename = name + '.lpst'
+                    with open(filename, 'x') as f:
                         f.write(transcript)
-                    print("Loopstation: Saved to", testname)
-                    continue
+                    print(f"Loopstation: Saved to {filename}")
+                    return
                 except FileExistsError:
-                    print("Loopstation:", testname, "already exists!")
+                    print(f"Loopstation: {filename} already exists!")
                 # TODO: handle other errors
             case _:
                 pass
