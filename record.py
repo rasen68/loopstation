@@ -27,44 +27,61 @@ def child_execvp(argv: list[str]):
         os.kill(os.getppid(), signal.SIGTERM)
 
 def parent_loop(master_fd: int, transcript: str):
+    # TODO: should probs be a queue instead, might solve big input problem
+    last_stdin = None
     try:
         while True:
             # readable, writeable, error
-            r, _, _ = select.select([master_fd, sys.stdin], [], [])
+            r, _w, _e = select.select([master_fd, sys.stdin], [], [])
 
             # child stdout, send to transcript and user stdout
+            # TODO: test IO > 1024
             if master_fd in r:
                 data = os.read(master_fd, 1024)
                 if not data: break # child died
-                try:
+                try: # Decode data for transcript
                     data_str = data.decode('utf-8')
+                    prefix = "[ "
                 except UnicodeDecodeError:
-                    # TODO: Mode to write bytes directly, maybe x ...
-                    sys.exit("Loopstation: Can't decode non UTF-8 bytes, exiting\n")
-                # TODO: Add stdout stream indicator, like [ ...
-                # Idea: .lpst files should all look like
-                # [char] input/output
-                # $ means command
-                # [ means output
-                # > means input
-                # x means bytes output
-                # Mode for additional tests?
-                # e.g. check pwd after
+                    # Decode failed, write data in hex (x) mode
+                    # TODO: binary input, e.g. piped from file?
+                    data_str = data.hex()
+                    if not transcript.endswith('\n') and transcript[-1] != '\n':
+                        transcript += '\\\n'
+                    prefix = "x "
 
+                # Process transcript
+                if transcript.endswith('\n'):
+                    transcript += prefix
+                if '\n' in data_str[:-1]:
+                    data_str = (data_str[:-1].replace('\n', '\n'+prefix)
+                                + data_str[-1:])
+                data_str = data_str.replace('\r\n', '\n')
                 transcript += data_str
+
+                # Write to stdout, subtracting last stdin to avoid duplication
+                # TODO: this doesnt work
+                sys.stdout.buffer.write(f"DATA: {data}\n".encode())
+                sys.stdout.buffer.flush()
+                if data.startswith(last_stdin):
+                    last_stdin = None
+                    data.removeprefix(last_stdin)
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
 
             # our stdin, send to child
             if sys.stdin in r:
                 data = os.read(sys.stdin.fileno(), 1024)
+                last_stdin = data
+                sys.stdout.buffer.write(f"LAST_STDIN: {last_stdin}\n".encode())
+                sys.stdout.buffer.flush()
                 os.write(master_fd, data)
 
                 # Tell transcript we read stdin
                 # Child pty will print this to screen,
                 # So we let stdout write it to transcript
-                if not transcript.endswith("\n") and transcript[-1] != "\n":
-                    transcript += "\\\n"
+                if not transcript.endswith('\n') and transcript[-1] != '\n':
+                    transcript += '\\\n'
                 transcript += "> "
 
     except OSError as e:
