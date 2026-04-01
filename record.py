@@ -1,4 +1,5 @@
 import os, pty, sys, select, shutil
+from collections import deque
 
 def record(program: str, args: list[str]):
     if not shutil.which(program):
@@ -27,8 +28,7 @@ def child_execvp(argv: list[str]):
         os.kill(os.getppid(), signal.SIGTERM)
 
 def parent_loop(master_fd: int, transcript: str):
-    # TODO: should probs be a queue instead, might solve big input problem
-    last_stdin = b''
+    last_stdin_queue = deque()
     try:
         while True:
             # readable, writeable, error
@@ -60,23 +60,22 @@ def parent_loop(master_fd: int, transcript: str):
                 transcript += data_str
 
                 # Write to stdout, subtracting last stdin to avoid duplication
-                if data.startswith(last_stdin):
-                    data = data.removeprefix(last_stdin)
-                    last_stdin = b''
+                if last_stdin_queue and data.startswith(last_stdin_queue[0]):
+                    data = data.removeprefix(last_stdin_queue.popleft())
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
 
             # our stdin, send to child
             if sys.stdin in r:
                 data = os.read(sys.stdin.fileno(), 1024)
-                last_stdin = data
+                last_stdin_queue.append(data)
                 os.write(master_fd, data)
 
                 # Tell transcript we read stdin
                 # Child pty will print this to screen,
                 # So we let stdout write it to transcript
                 if not transcript.endswith('\n') and transcript[-1] != '\n':
-                    transcript += '\\\n'
+                    transcript += '\n\\'
                 transcript += "> "
 
     except OSError as e:
