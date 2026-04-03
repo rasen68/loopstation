@@ -1,5 +1,6 @@
-import os, pty, sys, select, shutil
-from collections import deque
+import os, pty, sys, shutil
+from transcript import Transcript
+from station import child_execvp, parent_loop
 
 def record(program: str, args: list[str]):
     if not shutil.which(program):
@@ -7,6 +8,13 @@ def record(program: str, args: list[str]):
     else:
         print("--- LOOPSTATION: STARTING RECORDING ---")
 
+    # Start transcript with our argv
+    header = f"$ [{program}]"
+    for arg in args:
+        header += f" [{arg}]"
+    transcript = Transcript(header)
+
+    # Fork!
     pid, master_fd = pty.fork()
 
     # we're child, become program
@@ -14,100 +22,38 @@ def record(program: str, args: list[str]):
         return child_execvp([program] + args)
 
     # otherwise, we're parent
-    header = f"$ [{program}]"
-    for arg in args:
-        header += f" [{arg}]"
-    header += '\n'
-    transcript = parent_loop(master_fd, header)
-    finish_recording(transcript)
-
-def child_execvp(argv: list[str]):
+    # TODO: make this robust against args with [] in them
     try:
-        return os.execvp(argv[0], argv)
-    except FileNotFoundError: # In case our shutil.which check fails
-        os.kill(os.getppid(), signal.SIGTERM)
-
-def parent_loop(master_fd: int, transcript: str):
-    last_stdin_queue = deque()
-    try:
-        while True:
-            # readable, writeable, error
-            r, _w, _e = select.select([master_fd, sys.stdin], [], [])
-
-            # child stdout, send to transcript and user stdout
-            # TODO: test IO > 1024
-            if master_fd in r:
-                data = os.read(master_fd, 1024)
-                if not data: break # child died
-                try: # Decode data for transcript
-                    data = data.replace(b'\r\n', b'\n')
-                    data_str = data.decode('utf-8')
-                    prefix = "[ "
-                except UnicodeDecodeError:
-                    # Decode failed, write data in hex (x) mode
-                    # TODO: binary input, e.g. piped from file?
-                    data_str = data.hex()
-                    if not transcript.endswith('\n') and transcript[-1] != '\n':
-                        transcript += '\\\n'
-                    prefix = "x "
-
-                # Process transcript
-                if transcript.endswith('\n'):
-                    transcript += prefix
-                if '\n' in data_str[:-1]:
-                    data_str = (data_str[:-1].replace('\n', '\n'+prefix)
-                                + data_str[-1:])
-                transcript += data_str
-
-                # Write to stdout, subtracting last stdin to avoid duplication
-                if last_stdin_queue and data.startswith(last_stdin_queue[0]):
-                    data = data.removeprefix(last_stdin_queue.popleft())
-                sys.stdout.buffer.write(data)
-                sys.stdout.buffer.flush()
-
-            # our stdin, send to child
-            if sys.stdin in r:
-                data = os.read(sys.stdin.fileno(), 1024)
-                last_stdin_queue.append(data)
-                os.write(master_fd, data)
-
-                # Tell transcript we read stdin
-                # Child pty will print this to screen,
-                # So we let stdout write it to transcript
-                if not transcript.endswith('\n') and transcript[-1] != '\n':
-                    transcript += '\n\\'
-                transcript += "> "
-
+        parent_loop(master_fd, transcript)
     except OSError as e:
-        if e.errno == 5: # I/O error
+        if e.errno == 5: # IO error
             print("--- LOOPSTATION: PROGRAM EXITED ---\n")
-        else:
-            raise e
-
+        else: raise e
     print("Loopstation: Recorded!")
-    return transcript
+    finish_recording(program, transcript)
 
-def finish_recording(transcript: str):
+def finish_recording(program: str, transcript: Transcript):
     while True:
         match input("Loopstation: [s]ave/[v]iew recording/[q]uit - "):
             case 'v':
-                print("--- LOOPSTATION: TRANSCRIPT ---")
-                print(transcript)
-                print("--- LOOPSTATION: END TRANSCRIPT ---")
+                transcript.print()
             case 'q':
                 print("\nLoopstation: Exiting without saving transcript")
                 return
             case 's':
-                # TODO: directory stuff
-                # TODO: Suggested test name
+                # TODO: how to conveniently ask user for default dir
+                # lpst record [-d {dir}] {program}?
+                default_dir = os.path.join(os.getcwd(), program + '-lpst')
+                os.makedirs(default_dir, exist_ok=True)
+                print(f"Loopstation: Saving in directory {default_dir}.")
                 # TODO: windows vs unix
                 while not (name := input("Loopstation: Enter test name - ")):
                     pass
                 try:
                     filename = name + '.lpst'
-                    with open(filename, 'x') as f:
-                        f.write(transcript)
-                    print(f"Loopstation: Saved to {filename}")
+                    with open(os.path.join(default_dir, filename), 'x') as f:
+                        transcript.save(f)
+                        print(f"Loopstation: Saved to {filename}")
                     return
                 except FileExistsError:
                     print(f"Loopstation: {filename} already exists!")

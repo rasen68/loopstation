@@ -1,6 +1,6 @@
 __pycache__/*
 __pycache__
-tests/
-tests/*
+*-lpst/*
+*-lpst/
 *.swp
 *.swo
