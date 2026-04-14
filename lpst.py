@@ -13,7 +13,7 @@ if __name__ == "__main__":
         case ['synthesize', program]:
             print("WIP")
         case ['playback', test_dir, *tests]:
-            playback(program, args)
+            playback(test_dir, tests)
         case ['rerecord', test_dir, *tests]:
             print("WIP")
         case _:

@@ -2,7 +2,11 @@ from io import TextIOWrapper
 
 class Transcript:
     def __init__(self, header: str):
-        self.transcript = header + '\n'
+        if not header.endswith('\n'):
+            header += '\n'
+        self.transcript = header
+        self.input_counter = 0
+        self.input_lines = []
 
     def transcribe(self, data: bytes):
         # Transcript must end with lpst prefix ("[ " or "> ")
@@ -16,7 +20,7 @@ class Transcript:
         else:
             # In non-hex mode, add prefix to newlines
             prefix = self.transcript[-2:]
-            data_str = data_str[:-1].replace('\n', '\n'+prefix) + data_str[-1]
+            data_str = data_str[:-1].replace('\n', '\n'+prefix) + data_str[-1:]
 
         self.transcript += data_str
         if not self.transcript.endswith('\n'):
@@ -27,6 +31,25 @@ class Transcript:
         self.transcript += '> '
     def output_prefix(self):
         self.transcript += '[ '
+
+    def get_input_lines(self):
+        if self.input_lines:
+            return self.inputlines
+        else:
+            return [l for l in self.transcript.splitlines()
+                    if '>' in l.split(' ')[0]]
+
+    def get_next_input(self) -> bytes:
+        if self.input_counter >= len(self.get_input_lines()):
+            return b''
+        line = self.get_input_lines()[self.input_counter]
+        self.input_counter += 1
+        prefix, ret = line.split(' ', maxsplit=1)
+        ret += '\n'
+        if 'x' in prefix:
+            return bytes.fromhex(ret)
+        else:
+            return ret.encode()
 
     def print(self):
         print("--- LOOPSTATION: TRANSCRIPT ---")
