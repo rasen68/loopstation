@@ -11,7 +11,6 @@ class Transcript:
     def transcribe(self, data: bytes):
         # Transcript must end with lpst prefix ("[ " or "> ")
         # Parent loop is responsible for appending these
-        data = data.replace(b'\r\n', b'\n')
         try:
             data_str = data.decode('utf-8')
         except UnicodeDecodeError:
@@ -40,6 +39,8 @@ class Transcript:
                     if '>' in l.split(' ')[0]]
 
     def get_next_input(self) -> bytes:
+        if self.input_counter >= len(self.get_input_lines()):
+            return b''
         line = self.get_input_lines()[self.input_counter]
         self.input_counter += 1
         prefix, ret = line.split(' ', maxsplit=1)
@@ -55,3 +56,5 @@ class Transcript:
         print("--- LOOPSTATION: END TRANSCRIPT ---")
     def save(self, file: TextIOWrapper):
         file.write(self.transcript)
+    def __eq__(self, other):
+        return self.transcript == other.transcript

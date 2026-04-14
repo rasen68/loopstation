@@ -39,11 +39,15 @@ def playback_one(test: str):
             parent_loop(master_fd,
                         our_transcript,
                         their_transcript.get_next_input,
-                        silent=True)
+                        filter_stdin=True,
+                        silent=True,
+                        )
         except IndexError:
             print("--- LOOPSTATION: END OF INPUT ---\n")
         except OSError as e:
             if e.errno == 5: # IO error
                 print("--- LOOPSTATION: PROGRAM EXITED ---\n")
             else: raise e
-        our_transcript.print()
+        if not our_transcript == their_transcript:
+            our_transcript.print()
+            their_transcript.print()

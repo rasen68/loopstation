@@ -24,7 +24,7 @@ def record(program: str, args: list[str]):
     # otherwise, we're parent
     # TODO: make this robust against args with [] in them
     try:
-        parent_loop(master_fd, transcript)
+        parent_loop(master_fd, transcript, filter_stdin=True)
     except OSError as e:
         if e.errno == 5: # IO error
             print("--- LOOPSTATION: PROGRAM EXITED ---\n")
