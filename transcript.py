@@ -40,8 +40,6 @@ class Transcript:
                     if '>' in l.split(' ')[0]]
 
     def get_next_input(self) -> bytes:
-        if self.input_counter >= len(self.get_input_lines()):
-            return b''
         line = self.get_input_lines()[self.input_counter]
         self.input_counter += 1
         prefix, ret = line.split(' ', maxsplit=1)
