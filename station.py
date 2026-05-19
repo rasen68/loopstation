@@ -1,5 +1,4 @@
-import os, sys, signal, select
-from os.path import commonprefix
+import os, sys, signal, select, termios, tty
 from typing import Callable
 from transcript import Transcript
 
@@ -19,7 +18,13 @@ def parent_loop(master_fd: int,
                 filter_stdin: bool=False,
                 silent: bool=False,
                 ):
-    last_stdin_queue = b''
+    # Turn off echo
+    slave_fd = os.open(os.ttyname(master_fd), os.O_RDWR)
+    attrs = termios.tcgetattr(slave_fd)
+    attrs[3] &= ~termios.ECHO
+    termios.tcsetattr(slave_fd, termios.TCSANOW, attrs)
+    os.close(slave_fd)
+
     while True:
         # readable, writeable, error
         r, _w, _e = select.select([master_fd, sys.stdin], [], [])
@@ -32,10 +37,6 @@ def parent_loop(master_fd: int,
 
             # process data
             data = data.replace(b'\r\n', b'\n')
-            if filter_stdin:
-                prefix = commonprefix([last_stdin_queue, data])
-                last_stdin_queue = last_stdin_queue[len(prefix):]
-                data = data[len(prefix):]
             if data:
                 transcript.output_prefix()
                 transcript.transcribe(data)
@@ -47,8 +48,6 @@ def parent_loop(master_fd: int,
         if sys.stdin in r:
             data = stdin_callable()
             data = data.replace(b'\r\n', b'\n')
-            if filter_stdin:
-                last_stdin_queue += data
             if data:
                 os.write(master_fd, data)
                 transcript.input_prefix()
