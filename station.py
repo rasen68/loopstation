@@ -19,36 +19,41 @@ def parent_loop(master_fd: int,
                 silent: bool=False,
                 ):
     # Turn off echo
-    slave_fd = os.open(os.ttyname(master_fd), os.O_RDWR)
-    attrs = termios.tcgetattr(slave_fd)
+    attrs = termios.tcgetattr(sys.stdin)
     attrs[3] &= ~termios.ECHO
-    termios.tcsetattr(slave_fd, termios.TCSANOW, attrs)
-    os.close(slave_fd)
+    termios.tcsetattr(sys.stdin, termios.TCSANOW, attrs)
 
-    while True:
-        # readable, writeable, error
-        r, _w, _e = select.select([master_fd, sys.stdin], [], [])
+    try:
+        while True:
+            # readable, writeable, error
+            r, _w, _e = select.select([master_fd, sys.stdin], [], [])
 
-        # child stdout, send to transcript and user stdout
-        # TODO: Large enough IO (4096 ASCII chars?) breaks mysteriously
-        if master_fd in r:
-            data = os.read(master_fd, 1024)
-            if not data: break # child died
+            # child stdout, send to transcript and user stdout
+            # TODO: Large enough IO (4096 ASCII chars?) breaks mysteriously
+            if master_fd in r:
+                data = os.read(master_fd, 1024)
+                if not data: break # child died
 
-            # process data
-            data = data.replace(b'\r\n', b'\n')
-            if data:
-                transcript.output_prefix()
-                transcript.transcribe(data)
-                if not silent:
-                    sys.stdout.buffer.write(data)
-                    sys.stdout.buffer.flush()
+                # process data
+                data = data.replace(b'\r\n', b'\n')
+                if data:
+                    transcript.output_prefix()
+                    transcript.transcribe(data)
+                    if not silent:
+                        sys.stdout.buffer.write(data)
+                        sys.stdout.buffer.flush()
 
-        # our stdin, send to child
-        if sys.stdin in r:
-            data = stdin_callable()
-            data = data.replace(b'\r\n', b'\n')
-            if data:
-                os.write(master_fd, data)
-                transcript.input_prefix()
-                transcript.transcribe(data)
+            # our stdin, send to child
+            if sys.stdin in r:
+                data = stdin_callable()
+                data = data.replace(b'\r\n', b'\n')
+                if data:
+                    os.write(master_fd, data)
+                    transcript.input_prefix()
+                    transcript.transcribe(data)
+    finally:
+        # Turn echo back on
+        attrs = termios.tcgetattr(sys.stdin)
+        attrs[3] |= termios.ECHO
+        termios.tcsetattr(sys.stdin, termios.TCSANOW, attrs)
+
