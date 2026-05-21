@@ -1,5 +1,5 @@
 import os, pty, sys, select, shutil
-from station import child_execvp, parent_loop
+from station import child_execvp, playback_loop
 from transcript import Transcript
 
 def playback(test_dir: str, tests: list[str]=[]):
@@ -36,12 +36,7 @@ def playback_one(test: str):
 
         # otherwise, we're parent
         try:
-            parent_loop(master_fd,
-                        our_transcript,
-                        their_transcript.get_next_input,
-                        filter_stdin=True,
-                        silent=True,
-                        )
+            playback_loop(master_fd, our_transcript, their_transcript)
         except IndexError:
             print("--- LOOPSTATION: END OF INPUT ---\n")
         except OSError as e:
