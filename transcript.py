@@ -113,7 +113,7 @@ class Transcript:
         argv = [{'argv': self.argv}]
         dicts = argv + [asdict(line) for line in self._lines]
         with open(filename, 'x') as f:
-            json.dump(dicts, file, indent=2)
+            json.dump(dicts, f, indent=2)
 
     def __eq__(self, other):
         return all([s == o for s, o in zip(self._lines, other._lines)])
