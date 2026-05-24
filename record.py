@@ -37,14 +37,13 @@ def finish_recording(program: str, transcript: Transcript):
                 default_dir = os.path.join(os.getcwd(), program + '-lpst')
                 os.makedirs(default_dir, exist_ok=True)
                 print(f"Loopstation: Saving in directory {default_dir}.")
-                # TODO: windows vs unix
                 while not (name := input("Loopstation: Enter test name - ")):
                     pass
                 try:
                     filename = "lpst." + name + '.json'
-                    with open(os.path.join(default_dir, filename), 'x') as f:
-                        transcript.save(f)
-                        print(f"Loopstation: Saved to {filename}")
+                    fullname = os.path.join(default_dir, filename)
+                    transcript.save(fullname)
+                    print(f"Loopstation: Saved to {filename}")
                     return
                 except FileExistsError:
                     print(f"Loopstation: {filename} already exists!")

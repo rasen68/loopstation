@@ -67,7 +67,7 @@ class Transcript:
         transcript = cls(argv)
         for d in dicts[1:]:
             transcript._lines.append(LpstLine(**d))
-        transcript._init_iters()
+        transcript._init_iter()
         return transcript
 
     def _transcribe(self, prefix: Prefix, data: bytes):
@@ -91,9 +91,7 @@ class Transcript:
     def transcribe_output(self, data: bytes):
         self._transcribe(Prefix.OUTPUT, data)
 
-    # TODO: maybe a better way to do this, like a class hierarchy
-    # between loaded and recorded transcripts?
-    def _init_iters(self):
+    def _init_iter(self):
         self._input_iter = (l for l in self._lines if l.is_input())
 
     def get_next_input(self) -> bytes | int: # input bytes or wait time
@@ -105,17 +103,17 @@ class Transcript:
 
     def print(self):
         print("--- LOOPSTATION: START TRANSCRIPT ---")
-        print(" ".join([f"[{arg}]" for arg in self.argv]))
+        print("$ " + " ".join([f"[{arg}]" for arg in self.argv]))
         for line in self._lines:
             print(str(line), end='')
         print("--- LOOPSTATION: END TRANSCRIPT ---")
 
-    # TODO: take path instead
     # FAR TODO: compact save instead of json
-    def save(self, file: TextIOWrapper):
+    def save(self, filename: str):
         argv = [{'argv': self.argv}]
         dicts = argv + [asdict(line) for line in self._lines]
-        json.dump(dicts, file, indent=2)
+        with open(filename, 'x') as f:
+            json.dump(dicts, file, indent=2)
 
     def __eq__(self, other):
         return all([s == o for s, o in zip(self._lines, other._lines)])
