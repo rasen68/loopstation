@@ -2,35 +2,26 @@ import os, pty, sys, shutil
 from transcript import Transcript
 from station import child_execvp, record_loop
 
-def record(program: str, args: list[str]):
-    if not shutil.which(program):
+def record(argv: list[str]):
+    if not shutil.which(argv[0]):
         sys.exit(f"Loopstation: File {program} not found, check $PATH?")
     else:
         print("--- LOOPSTATION: STARTING RECORDING ---")
 
     # Start transcript with our argv
-    header = f"$ [{program}]"
-    for arg in args:
-        header += f" [{arg}]"
-    transcript = Transcript(header)
+    transcript = Transcript(argv)
 
     # Fork!
     pid, master_fd = pty.fork()
 
     # we're child, become program
     if pid == 0:
-        return child_execvp([program] + args)
+        return child_execvp(argv)
 
     # otherwise, we're parent
-    # TODO: make this robust against args with [] in them
-    try:
-        record_loop(master_fd, transcript)
-    except OSError as e:
-        if e.errno == 5: # IO error
-            print("--- LOOPSTATION: PROGRAM EXITED ---\n")
-        else: raise e
-    print("Loopstation: Recorded!")
-    finish_recording(program, transcript)
+    record_loop(master_fd, transcript)
+    print("--- LOOPSTATION: RECORDING FINISHED ---")
+    finish_recording(argv[0], transcript)
 
 def finish_recording(program: str, transcript: Transcript):
     while True:
@@ -50,7 +41,7 @@ def finish_recording(program: str, transcript: Transcript):
                 while not (name := input("Loopstation: Enter test name - ")):
                     pass
                 try:
-                    filename = name + '.lpst'
+                    filename = "lpst." + name + '.json'
                     with open(os.path.join(default_dir, filename), 'x') as f:
                         transcript.save(f)
                         print(f"Loopstation: Saved to {filename}")

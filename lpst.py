@@ -5,9 +5,9 @@ from playback import playback
 
 if __name__ == "__main__":
     match sys.argv[1:]:
-        case ['record', program, *args]:
+        case ['record', *argv]:
             try:
-                record(program, args)
+                record(argv)
             except KeyboardInterrupt:
                 sys.stderr.write("\nLoopstation: Interrupted, exiting without recording\n")
         case ['synthesize', program]:

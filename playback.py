@@ -14,35 +14,19 @@ def playback(test_dir: str, tests: list[str]=[]):
     for test in (tests or os.listdir(test_dir)):
         playback_one(os.path.join(test_dir, test))
 
-def playback_one(test: str):
-    with open(test, 'r') as file:
-        file_str = file.read()
-        header = file_str.splitlines()[0]
-        their_transcript = Transcript(file_str)
-        our_transcript = Transcript(header)
-
-        # Assuming no [] in argv for now
-        argv = header.split(']')
-        argv = [arg[arg.index('[')+1:] for arg in argv if arg]
-        if not shutil.which(argv[0]):
-            print(f"Test {test}: File {argv[0]} not found, check $PATH?")
-            return
+def playback_one(test_file: str):
+    with open(test_file, 'r') as file:
+        # This naming convention has done but it works
+        their_transcript = Transcript.load(file)
+        our_transcript = Transcript(their_transcript.argv)
 
         pid, master_fd = pty.fork()
 
         # we're child, become program
         if pid == 0:
-            return child_execvp(argv)
+            return child_execvp(their_transcript.argv)
 
         # otherwise, we're parent
-        try:
-            playback_loop(master_fd, our_transcript, their_transcript)
-        except IndexError:
-            print("--- LOOPSTATION: END OF INPUT ---\n")
-        except OSError as e:
-            if e.errno == 5: # IO error
-                print("--- LOOPSTATION: PROGRAM EXITED ---\n")
-            else: raise e
-        if not our_transcript == their_transcript:
-            our_transcript.print()
-            their_transcript.print()
+        playback_loop(master_fd, our_transcript, their_transcript)
+        our_transcript.print()
+        their_transcript.print()
