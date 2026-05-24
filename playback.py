@@ -28,5 +28,9 @@ def playback_one(test_file: str):
 
         # otherwise, we're parent
         playback_loop(master_fd, our_transcript, their_transcript)
-        our_transcript.print()
-        their_transcript.print()
+        if our_transcript == their_transcript:
+            print(f"LOOPSTATION: Test {test_file} passed!")
+        else:
+            # TODO: output better diff
+            our_transcript.print()
+            their_transcript.print()
