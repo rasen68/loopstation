@@ -36,6 +36,7 @@ def _playback_one(test_file: str, diff: DiffMode):
 
         # otherwise, we're parent
         playback_loop(master_fd, actual, recorded)
+        actual.rechunk()
         if recorded == actual:
             print(f"LOOPSTATION: Test {test_file} passed!")
         else:

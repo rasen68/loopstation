@@ -19,6 +19,10 @@ class Transcript:
         self._input_iter = None
         self._output_iter = None
 
+    def _init_iters(self):
+        self._input_iter = (l for l in self._lines if l.is_input_or_wait())
+        self._output_iter = (l for l in self._lines if l.is_output())
+
     @classmethod
     def load(cls, file) -> Transcript:
         dicts = json.load(file)
@@ -27,6 +31,7 @@ class Transcript:
         for d in dicts[1:]:
             transcript._lines.append(LpstLine(**d))
         transcript._init_iters()
+        transcript.rechunk()
         return transcript
 
     def _transcribe(self, prefix: Prefix, data: bytes):
@@ -43,15 +48,25 @@ class Transcript:
             line.encoding = Encoding.HEX
         self._lines.append(line)
 
+    def _get_line(self, i: int) -> LpstLine:
+        return self._lines[i]
+
+    def rechunk(self):
+        line_ptr = 1
+        while line_ptr < len(self._lines):
+            first, second = self._lines[line_ptr-1:line_ptr+1]
+            if first.prefix == second.prefix:
+                first += second
+                self._lines.pop(line_ptr)
+            else:
+                line_ptr += 1
+        return
+
     def transcribe_input(self, data: bytes):
         self._transcribe(Prefix.INPUT, data)
 
     def transcribe_output(self, data: bytes):
         self._transcribe(Prefix.OUTPUT, data)
-
-    def _init_iters(self):
-        self._input_iter = (l for l in self._lines if l.is_input_or_wait())
-        self._output_iter = (l for l in self._lines if l.is_output())
 
     def get_next_input(self) -> bytes | int: # input bytes or wait time
         line = next(self._input_iter, None)
@@ -85,10 +100,3 @@ class Transcript:
     def __eq__(self, other) -> bool:
         if self.argv != other.argv: return False
         return all([s == o for s, o in zip_longest(self._lines, other._lines)])
-    '''
-        input_queue, output_queue = b"", b""
-        for line in self._lines:
-            match line.
-            if line.is_input():
-                if 
-    '''

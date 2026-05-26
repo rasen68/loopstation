@@ -1,3 +1,4 @@
+from __future__ import annotations
 from dataclasses import dataclass, asdict
 from enum import StrEnum
 import re
@@ -71,6 +72,27 @@ class LpstLine:
     def __str__(self) -> str:
         return self._to_str()
 
+    def __add__(self, other: LpstLine) -> LpstLine:
+        assert self.prefix == other.prefix
+        if self.encoding == other.encoding:
+            data = self.data + other.data
+            return LpstLine(self.prefix, self.encoding, data)
+        else: # one of them is hex
+            self_data = self.data if self.is_hex() else self.data.encode().hex()
+            other_data = other.data if other.is_hex() else other.data.encode().hex()
+
+            # Evil edge case where a \r\n is split across reads
+            if self_data.endswith('0d') and other_data.startswith('0a'):
+                self_data = self_data.removesuffix('0d')
+
+            data = self_data + other_data
+            return LpstLine(self.prefix, Encoding.HEX, data)
+
+    def __iadd__(self, other: LpstLine):
+        new_line = self + other
+        self.encoding = new_line.encoding
+        self.data = new_line.data
+
     def dict(self) -> dict[str, str | int]:
         return asdict(self)
 
@@ -88,3 +110,9 @@ class LpstLine:
 
     def is_input_or_wait(self) -> bool:
         return self.is_input() or self.is_wait()
+
+    def is_utf(self) -> bool:
+        return self.encoding == Encoding.UTF
+
+    def is_hex(self) -> bool:
+        return self.encoding == Encoding.HEX
