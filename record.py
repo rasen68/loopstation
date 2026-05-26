@@ -29,24 +29,28 @@ def finish_recording(program: str, transcript: Transcript):
             case 'v':
                 transcript.print()
             case 'q':
-                print("\nLoopstation: Exiting without saving transcript")
+                print("\nExiting without saving transcript")
                 return
             case 's':
                 # TODO: how to conveniently ask user for default dir
                 # lpst record [-d {dir}] {program}?
                 default_dir = os.path.join(os.getcwd(), program + '-lpst')
                 os.makedirs(default_dir, exist_ok=True)
-                print(f"Loopstation: Saving in directory {default_dir}.")
-                while not (name := input("Loopstation: Enter test name - ")):
+                print(f"Saving in directory {default_dir}.")
+                while not (name := input("Enter test name - ")):
                     pass
                 try:
                     filename = "lpst." + name + '.json'
                     fullname = os.path.join(default_dir, filename)
                     transcript.save(fullname)
-                    print(f"Loopstation: Saved to {filename}")
+                    print(f"Saved to {filename}")
                     return
                 except FileExistsError:
-                    print(f"Loopstation: {filename} already exists!")
-                # TODO: handle other errors
+                    print(f"{filename} already exists! Replace? [y/N] ", end='')
+                    if input().upper() == 'Y':
+                        os.remove(fullname)
+                        transcript.save(fullname)
+                        print(f"Saved to {filename}")
+                        return
             case _:
                 pass
