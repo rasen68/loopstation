@@ -1,73 +1,31 @@
 from __future__ import annotations
-from dataclasses import dataclass, asdict
-from enum import StrEnum
 from copy import copy
 import json
 
-class Prefix(StrEnum):
-    INPUT = "> "
-    OUTPUT = "< "
-    WAIT = "~ " # TODO: implement wait
-
-class Encoding(StrEnum):
-    UTF = "u"
-    HEX = "x"
-    TIME = "t" # seconds
-
-@dataclass
-class LpstLine:
-    prefix: str
-    encoding: str
-    data: str | int # int for time
-
-    def get_data(self) -> bytes | int:
-        match self.encoding:
-            case Encoding.UTF:
-                return self.data.encode()
-            case Encoding.HEX:
-                return bytes.fromhex(self.data)
-            case _: # time
-                return self.data
-
-    def data_to_str(self) -> str:
-        match self.encoding:
-            case Encoding.TIME:
-                return str(round(self.data, 1)) + '\n'
-            case _:
-                # We escape backslashes, then add a single backslash if
-                # no newline - an odd number of trailing backslashes
-                # could only be this LpstLine-appended no newline marker
-                data = self.data.replace('\\', '\\\\')
-                if not data.endswith('\n'): data += '\\\n'
-                return data
-
-    def __str__(self):
-        return str(self.encoding) + str(self.prefix) + self.data_to_str()
-
-    def is_input(self) -> bool:
-        # waits are inputs for us
-        return self.prefix == Prefix.INPUT or self.prefix == Prefix.WAIT
+from line import Prefix, Encoding, LpstLine
 
 class Transcript:
     argv: list[str]
     _lines: list[LpstLine]
     _input_iter: iter[LpstLine] | None
+    _output_iter: iter[LpstLine] | None
     END_INPUT = -1
 
-    def __init__(self, argv: list[str]):
+    def __init__(self, argv: list[str]) -> Transcript:
         ''' * argv: all transcripts start with an executable '''
         self.argv = argv
         self._lines = []
         self._input_iter = None
+        self._output_iter = None
 
     @classmethod
-    def load(cls, file):
+    def load(cls, file) -> Transcript:
         dicts = json.load(file)
         argv = dicts[0]['argv']
         transcript = cls(argv)
         for d in dicts[1:]:
             transcript._lines.append(LpstLine(**d))
-        transcript._init_iter()
+        transcript._init_iters()
         return transcript
 
     def _transcribe(self, prefix: Prefix, data: bytes):
@@ -78,11 +36,10 @@ class Transcript:
         if not data: return # no reason to write blank lines
         line = LpstLine(prefix, Encoding.UTF, "")
         try:
-            data_str = data.decode('utf-8')
+            line.data = data.decode('utf-8')
         except UnicodeDecodeError:
-            data_str = data.hex()
+            line.data = data.hex()
             line.encoding = Encoding.HEX
-        line.data = data_str
         self._lines.append(line)
 
     def transcribe_input(self, data: bytes):
@@ -91,8 +48,9 @@ class Transcript:
     def transcribe_output(self, data: bytes):
         self._transcribe(Prefix.OUTPUT, data)
 
-    def _init_iter(self):
-        self._input_iter = (l for l in self._lines if l.is_input())
+    def _init_iters(self):
+        self._input_iter = (l for l in self._lines if l.is_input_or_wait())
+        self._output_iter = (l for l in self._lines if l.is_output())
 
     def get_next_input(self) -> bytes | int: # input bytes or wait time
         line = next(self._input_iter, None)
@@ -105,15 +63,22 @@ class Transcript:
         print("--- LOOPSTATION: START TRANSCRIPT ---")
         print("$ " + " ".join([f"[{arg}]" for arg in self.argv]))
         for line in self._lines:
-            print(str(line), end='')
+            line.print()
         print("--- LOOPSTATION: END TRANSCRIPT ---")
 
     # FAR TODO: compact save instead of json
     def save(self, filename: str):
         argv = [{'argv': self.argv}]
-        dicts = argv + [asdict(line) for line in self._lines]
+        dicts = argv + [line.dict() for line in self._lines]
         with open(filename, 'x') as f:
             json.dump(dicts, f, indent=2)
 
     def __eq__(self, other):
         return all([s == o for s, o in zip(self._lines, other._lines)])
+    '''
+        input_queue, output_queue = b"", b""
+        for line in self._lines:
+            match line.
+            if line.is_input():
+                if 
+    '''
