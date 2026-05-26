@@ -1,4 +1,5 @@
 from __future__ import annotations
+from itertools import zip_longest
 from copy import copy
 import json
 
@@ -59,6 +60,9 @@ class Transcript:
         else:
             return line.get_data()
 
+    def get_strs(self) -> list[str]:
+        return [line._to_str(times=False) for line in self._lines]
+
     def print(self):
         print("--- LOOPSTATION: START TRANSCRIPT ---")
         print("$ " + " ".join([f"[{arg}]" for arg in self.argv]))
@@ -73,8 +77,9 @@ class Transcript:
         with open(filename, 'x') as f:
             json.dump(dicts, f, indent=2)
 
-    def __eq__(self, other):
-        return all([s == o for s, o in zip(self._lines, other._lines)])
+    def __eq__(self, other) -> bool:
+        if self.argv != other.argv: return False
+        return all([s == o for s, o in zip_longest(self._lines, other._lines)])
     '''
         input_queue, output_queue = b"", b""
         for line in self._lines:
