@@ -2,7 +2,7 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from transcript import Transcript
 
-_QUIESCENCE = 0.001 # 1 ms
+_MIN_WAIT = 0.001 # 1 ms
 
 def child_execvp(argv: list[str]):
     ''' * argv: shell command and args to run               '''
@@ -93,7 +93,7 @@ def playback_loop(master_fd: int,
                     os.write(master_fd, data)
                     p_transcript.transcribe_input(data)
                     stdin_queue += data
-                    time.sleep(_QUIESCENCE)
+                    time.sleep(_MIN_WAIT)
                 elif isinstance(data, int):
                     # Check for end input sentinel
                     if data == Transcript.END_INPUT: break
