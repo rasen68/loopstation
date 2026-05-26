@@ -1,7 +1,7 @@
 import os, pty, sys, select, shutil
 from lpst.lib.station import child_execvp, playback_loop
 from lpst.lib.transcript import Transcript
-from lpst.lib.diff import DiffMode, print_diff
+from lpst.lib.diff import DiffMode
 
 def playback(test_dir: str,
              test_names: list[str] = [],
@@ -40,4 +40,4 @@ def _playback_one(test_file: str, diff: DiffMode):
             print(f"LOOPSTATION: Test {test_file} passed!")
         else:
             print(f"LOOPSTATION: Test {test_file} failed!")
-            print_diff(recorded, actual, diff, test_file=test_file)
+            diff(recorded, actual)

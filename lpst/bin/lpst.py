@@ -2,7 +2,7 @@ import sys, argparse
 
 from lpst.bin.playback import playback
 from lpst.bin.record import record
-from lpst.lib.diff import DiffMode
+from lpst.lib.diff import DiffMode, DIFF_MODE_STRS
 
 DESCRIPTION = "CLI recorder for lazy tests"
 
@@ -16,7 +16,8 @@ def _cmd_synthesize(_args: argparse.Namespace) -> None:
     print("WIP")
 
 def _cmd_playback(args: argparse.Namespace) -> None:
-    playback(args.test_dir, args.tests, diff=DiffMode(args.diff))
+    diff_mode = getattr(DiffMode, args.diff.upper())
+    playback(args.test_dir, args.tests, diff=diff_mode)
 
 def _cmd_rerecord(_args: argparse.Namespace) -> None:
     print("WIP")
@@ -38,18 +39,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     playback = subparsers.add_parser("playback", help="Playback tests")
     playback.add_argument("test_dir", help="Directory containing test files")
-    playback.add_argument(
-        "tests",
-        nargs="*",
-        default=[],
-        help="Test names without lpst./.json (default: all tests in directory)",
-    )
-    playback.add_argument(
-        "--diff",
-        choices=[mode.value for mode in DiffMode],
-        default=DiffMode.RAW.value,
-        help="Diff format on failure (default: %(default)s)",
-    )
+    playback.add_argument("tests", nargs="*", default=[],
+                          help="Test names (default: all tests in directory)")
+    playback.add_argument("--diff",
+                          choices=DIFF_MODE_STRS, default=DIFF_MODE_STRS[0],
+                          help="Diff format on failure (default: %(default)s)")
     playback.set_defaults(func=_cmd_playback)
 
     rerecord = subparsers.add_parser("rerecord",
