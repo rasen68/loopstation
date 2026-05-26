@@ -2,7 +2,7 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
-_MIN_WAIT = 0.005 # seconds
+_MIN_WAIT = 0.05 # seconds
 
 def child_execvp(argv: list[str]):
     ''' * argv: shell command and args to run               '''
@@ -40,7 +40,6 @@ def _check_echo(queue: bytes, data: bytes) -> tuple[bytes, bytes]:
         queue = b''
     return (queue, data)
 
-# TODO: these might want to be one function again
 def record_loop(master_fd: int, transcript: Transcript):
     stdin_queue = b""
     try:
@@ -49,7 +48,6 @@ def record_loop(master_fd: int, transcript: Transcript):
             r, _w, _e = select.select([master_fd, sys.stdin], [], [])
 
             # child stdout, send to transcript and user stdout
-            # TODO: Large enough IO (4096 ASCII chars?) breaks mysteriously
             if master_fd in r:
                 data = _lpst_read(master_fd, 1024)
                 if not data: break # child died
@@ -60,7 +58,6 @@ def record_loop(master_fd: int, transcript: Transcript):
 
             # our stdin, send to child
             if sys.stdin in r:
-                # TODO: should we just use input()? How to not byte limit?
                 data = _lpst_read(sys.stdin.fileno(), 1024)
                 os.write(master_fd, data)
                 transcript.transcribe_input(data)
@@ -93,7 +90,6 @@ def playback_loop(master_fd: int,
                     os.write(master_fd, data)
                     p_transcript.transcribe_input(data)
                     stdin_queue += data
-                    time.sleep(_MIN_WAIT)
                 elif isinstance(data, int):
                     # Check for end input sentinel
                     if data == Transcript.END_INPUT: break
