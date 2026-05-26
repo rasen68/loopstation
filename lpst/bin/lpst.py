@@ -1,5 +1,4 @@
-import argparse
-import sys
+import sys, argparse
 
 from lpst.bin.playback import playback
 from lpst.bin.record import record
@@ -11,7 +10,7 @@ def _cmd_record(args: argparse.Namespace) -> None:
     try:
         record([args.program, *args.args])
     except KeyboardInterrupt:
-        sys.stderr.write("\nLoopstation: Interrupted, exiting without recording\n")
+        sys.stderr.write("\nInterrupted, exiting without recording\n")
 
 def _cmd_synthesize(_args: argparse.Namespace) -> None:
     print("WIP")
@@ -29,11 +28,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     record = subparsers.add_parser("record", help="Record a test")
     record.add_argument("program", help="Program to record")
-    record.add_argument("args", nargs="*", default=[], help="Arguments for the program")
+    record.add_argument("args", nargs="*", default=[],
+                        help="Arguments for the program")
     record.set_defaults(func=_cmd_record)
 
-    synthesize = subparsers.add_parser("synthesize", help="Manually write a transcript")
-    synthesize.add_argument("program", help="Program to synthesize a transcript for")
+    synthesize = subparsers.add_parser("synthesize",
+                                       help="Manually write a transcript")
     synthesize.set_defaults(func=_cmd_synthesize)
 
     playback = subparsers.add_parser("playback", help="Playback tests")
@@ -52,14 +52,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     playback.set_defaults(func=_cmd_playback)
 
-    rerecord = subparsers.add_parser("rerecord", help="Playback tests and edit failures")
+    rerecord = subparsers.add_parser("rerecord",
+                                     help="Playback tests and edit failures")
     rerecord.add_argument("test_dir", help="Directory containing test files")
-    rerecord.add_argument(
-        "tests",
-        nargs="*",
-        default=[],
-        help="Test names without lpst./.json (default: all tests in directory)",
-    )
+    rerecord.add_argument("tests", nargs="*", default=[],
+        help="Test names (default: all tests in directory)")
     rerecord.set_defaults(func=_cmd_rerecord)
 
     return parser

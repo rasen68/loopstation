@@ -4,13 +4,15 @@ from lpst.lib.transcript import Transcript
 from lpst.lib.diff import DiffMode, print_diff
 
 def playback(test_dir: str,
-             tests: list[str] = [],
-             *,
+             test_names: list[str] = [],
              diff: DiffMode = DiffMode.RAW,
              ):
-    for t in tests:
+    tests = []
+    for t in test_names:
         if not t.startswith('lpst.'): t = 'lpst.' + t
         if not t.endswith('.json'): t = t + '.json'
+        tests.append(t)
+
     if not os.path.isdir(test_dir):
         sys.exit(f"Loopstation: {test_dir} is not a directory, exiting")
     elif not all(os.path.isfile(os.path.join(test_dir, t)) for t in tests):
@@ -19,9 +21,9 @@ def playback(test_dir: str,
         print("--- LOOPSTATION: STARTING PLAYBACK ---")
 
     for test in (tests or os.listdir(test_dir)):
-        playback_one(os.path.join(test_dir, test), diff=diff)
+        _playback_one(os.path.join(test_dir, test), diff)
 
-def playback_one(test_file: str, *, diff: DiffMode = DiffMode.RAW):
+def _playback_one(test_file: str, diff: DiffMode):
     with open(test_file, 'r') as file:
         recorded = Transcript.load(file)
         actual = Transcript(recorded.argv)
