@@ -70,8 +70,8 @@ def record_loop(master_fd: int, transcript: Transcript):
         else: raise e
 
 def playback_loop(master_fd: int,
-                  our_transcript: Transcript,
-                  their_transcript: Transcript,
+                  p_transcript: Transcript,
+                  r_transcript: Transcript,
                   ):
     stdin_queue = b""
     try:
@@ -84,20 +84,20 @@ def playback_loop(master_fd: int,
                 data = _lpst_read(master_fd, 1024)
                 if not data: break # child died
                 stdin_queue, data = _check_echo(stdin_queue, data)
-                our_transcript.transcribe_output(data)
+                p_transcript.transcribe_output(data)
 
             # our stdin, send to child
             if sys.stdin in r:
-                data = their_transcript.get_next_input()
+                data = r_transcript.get_next_input()
                 if isinstance(data, bytes) and data:
                     os.write(master_fd, data)
-                    our_transcript.transcribe_input(data)
+                    p_transcript.transcribe_input(data)
                     stdin_queue += data
                     time.sleep(_QUIESCENCE)
                 elif isinstance(data, int):
                     # Check for end input sentinel
                     if data == Transcript.END_INPUT: break
-                    time.sleep(data)
+                    time.sleep(data / 1000)
     except OSError as e:
         if e.errno == IO_ERRNO: pass
         else: raise e

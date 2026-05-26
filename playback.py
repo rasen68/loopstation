@@ -16,21 +16,22 @@ def playback(test_dir: str, tests: list[str]=[]):
 
 def playback_one(test_file: str):
     with open(test_file, 'r') as file:
-        # This naming convention has done but it works
-        their_transcript = Transcript.load(file)
-        our_transcript = Transcript(their_transcript.argv)
+        r_transcript = Transcript.load(file)
+        p_transcript = Transcript(r_transcript.argv)
 
         pid, master_fd = pty.fork()
 
         # we're child, become program
         if pid == 0:
-            return child_execvp(their_transcript.argv)
+            return child_execvp(r_transcript.argv)
 
         # otherwise, we're parent
-        playback_loop(master_fd, our_transcript, their_transcript)
-        if our_transcript == their_transcript:
+        playback_loop(master_fd, p_transcript, r_transcript)
+        if r_transcript == p_transcript:
             print(f"LOOPSTATION: Test {test_file} passed!")
         else:
             # TODO: output better diff
-            our_transcript.print()
-            their_transcript.print()
+            print("Expected:")
+            r_transcript.print()
+            print("Got:")
+            p_transcript.print()
