@@ -77,7 +77,7 @@ def playback_loop(master_fd: int,
     try:
         while True:
             # readable, writeable, error
-            r, _w, _e = select.select([master_fd, sys.stdin], [], [])
+            r, _w, _e = select.select([master_fd], [], [], _MIN_WAIT)
 
             # child stdout, send to transcript
             if master_fd in r:
@@ -86,8 +86,8 @@ def playback_loop(master_fd: int,
                 stdin_queue, data = _check_echo(stdin_queue, data)
                 p_transcript.transcribe_output(data)
 
-            # our stdin, send to child
-            if sys.stdin in r:
+            # ask for stdin if we don't have stdout after _MIN_WAIT
+            else:
                 data = r_transcript.get_next_input()
                 if isinstance(data, bytes) and data:
                     os.write(master_fd, data)
