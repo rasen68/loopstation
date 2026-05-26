@@ -1,8 +1,13 @@
 import os, pty, sys, select, shutil
 from station import child_execvp, playback_loop
 from transcript import Transcript
+from diff import DiffMode, print_diff
 
-def playback(test_dir: str, tests: list[str]=[]):
+def playback(test_dir: str,
+             tests: list[str] = [],
+             *,
+             diff: DiffMode = DiffMode.RAW,
+             ):
     tests = [t + '.lpst' if not t.endswith('.lpst') else t for t in tests]
     if not os.path.isdir(test_dir):
         sys.exit(f"Loopstation: {test_dir} is not a directory, exiting")
@@ -12,26 +17,23 @@ def playback(test_dir: str, tests: list[str]=[]):
         print("--- LOOPSTATION: STARTING PLAYBACK ---")
 
     for test in (tests or os.listdir(test_dir)):
-        playback_one(os.path.join(test_dir, test))
+        playback_one(os.path.join(test_dir, test), diff=diff)
 
-def playback_one(test_file: str):
+def playback_one(test_file: str, *, diff: DiffMode = DiffMode.RAW):
     with open(test_file, 'r') as file:
-        r_transcript = Transcript.load(file)
-        p_transcript = Transcript(r_transcript.argv)
+        recorded = Transcript.load(file)
+        actual = Transcript(recorded.argv)
 
         pid, master_fd = pty.fork()
 
         # we're child, become program
         if pid == 0:
-            return child_execvp(r_transcript.argv)
+            return child_execvp(recorded.argv)
 
         # otherwise, we're parent
-        playback_loop(master_fd, p_transcript, r_transcript)
-        if r_transcript == p_transcript:
+        playback_loop(master_fd, actual, recorded)
+        if recorded == actual:
             print(f"LOOPSTATION: Test {test_file} passed!")
         else:
-            # TODO: output better diff
-            print("Expected:")
-            r_transcript.print()
-            print("Got:")
-            p_transcript.print()
+            print(f"LOOPSTATION: Test {test_file} failed!")
+            print_diff(recorded, actual, diff, test_file=test_file)
