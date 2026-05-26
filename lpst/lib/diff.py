@@ -1,24 +1,13 @@
-import difflib
-import os
-import shlex
-import sys
-import tempfile
+import os, shlex, difflib, tempfile, subprocess
 from enum import StrEnum
 from itertools import zip_longest
 
 from lpst.lib.transcript import Transcript
 
-
 class DiffMode(StrEnum):
     RAW = "raw"
     RICH = "rich"
     VIM = "vim"
-
-
-def _transcript_lines(transcript: Transcript) -> list[str]:
-    argv = "$ " + " ".join(f"[{arg}]" for arg in transcript.argv)
-    return [argv, *transcript.get_strs()]
-
 
 def print_diff(expected: Transcript,
                actual: Transcript,
@@ -34,11 +23,10 @@ def print_diff(expected: Transcript,
         case DiffMode.VIM:
             _print_diff_vim(expected, actual, test_file)
 
-
 def _print_diff_raw(expected: Transcript, actual: Transcript) -> None:
     for line in difflib.unified_diff(
-        _transcript_lines(expected),
-        _transcript_lines(actual),
+        expected.get_strs(argv=True),
+        actual.get_strs(argv=True),
         fromfile="expected",
         tofile="actual",
         lineterm="",
@@ -47,28 +35,24 @@ def _print_diff_raw(expected: Transcript, actual: Transcript) -> None:
 
 
 def _print_diff_rich(expected: Transcript, actual: Transcript) -> None:
-    try:
-        from rich.console import Console
-        from rich.style import Style
-        from rich.table import Table
-        from rich.text import Text
-    except ImportError:
-        sys.exit("Loopstation: rich diff requires `pip install rich`")
+    from rich.console import Console
+    from rich.table import Table
+    from rich.text import Text
 
     table = Table(show_header=True, header_style="bold", box=None, padding=(0, 2))
     table.add_column("expected", overflow="fold")
     table.add_column("actual", overflow="fold")
 
     for exp, act in zip_longest(
-        _transcript_lines(expected),
-        _transcript_lines(actual),
+        expected.get_strs(argv=True),
+        actual.get_strs(argv=True),
         fillvalue="",
     ):
         if exp == act:
             table.add_row(exp, act)
         else:
-            exp_cell = Text(exp or "·", style=Style(dim=True) if not exp else Style(on_color="dark_red"))
-            act_cell = Text(act or "·", style=Style(dim=True) if not act else Style(on_color="dark_green"))
+            exp_cell = Text(exp or "·", style="dim" if not exp else "white on dark_red")
+            act_cell = Text(act or "·", style="dim" if not act else "white on dark_green")
             table.add_row(exp_cell, act_cell)
 
     Console().print(table)
@@ -84,8 +68,8 @@ def _print_diff_vim(expected: Transcript,
     actual_path = os.path.join(diff_dir, "actual")
 
     for path, lines in (
-        (expected_path, _transcript_lines(expected)),
-        (actual_path, _transcript_lines(actual)),
+        (expected_path, expected.get_strs(argv=True)),
+        (actual_path, actual.get_strs(argv=True)),
     ):
         with open(path, "w") as file:
             file.write("\n".join(lines))
@@ -93,4 +77,4 @@ def _print_diff_vim(expected: Transcript,
 
     print(f"Loopstation: diff files written to {diff_dir}")
     cmd = "vim -d " + " ".join(shlex.quote(path) for path in (expected_path, actual_path))
-    print(f"  {cmd}")
+    subprocess.run(cmd, shell=True)
