@@ -1,6 +1,6 @@
 import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
-from transcript import Transcript
+from lpst.lib.transcript import Transcript
 
 _MIN_WAIT = 0.001 # 1 ms
 

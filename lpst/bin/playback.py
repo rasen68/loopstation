@@ -1,7 +1,7 @@
 import os, pty, sys, select, shutil
-from station import child_execvp, playback_loop
-from transcript import Transcript
-from diff import DiffMode, print_diff
+from lpst.lib.station import child_execvp, playback_loop
+from lpst.lib.transcript import Transcript
+from lpst.lib.diff import DiffMode, print_diff
 
 def playback(test_dir: str,
              tests: list[str] = [],

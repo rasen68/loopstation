@@ -6,7 +6,7 @@ import tempfile
 from enum import StrEnum
 from itertools import zip_longest
 
-from transcript import Transcript
+from lpst.lib.transcript import Transcript
 
 
 class DiffMode(StrEnum):

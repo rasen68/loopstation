@@ -1,6 +1,6 @@
 import os, pty, sys, shutil
-from transcript import Transcript
-from station import child_execvp, record_loop
+from lpst.lib.transcript import Transcript
+from lpst.lib.station import child_execvp, record_loop
 
 def record(argv: list[str]):
     if not shutil.which(argv[0]):

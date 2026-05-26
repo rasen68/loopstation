@@ -3,7 +3,7 @@ from itertools import zip_longest
 from copy import copy
 import json
 
-from line import Prefix, Encoding, LpstLine
+from lpst.lib.line import Prefix, Encoding, LpstLine
 
 class Transcript:
     argv: list[str]

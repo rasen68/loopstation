@@ -1,8 +1,9 @@
-#!/usr/bin/python3
 import sys
-from record import record
-from playback import playback
-from diff import DiffMode
+
+from lpst.bin.playback import playback
+from lpst.bin.record import record
+from lpst.lib.diff import DiffMode
+
 
 def _parse_playback_args(rest: list[str]) -> tuple[list[str], DiffMode]:
     diff = DiffMode.RAW
@@ -19,7 +20,8 @@ def _parse_playback_args(rest: list[str]) -> tuple[list[str], DiffMode]:
             tests.append(arg)
     return tests, diff
 
-if __name__ == "__main__":
+
+def main() -> None:
     match sys.argv[1:]:
         case ['record', *argv]:
             try:
@@ -43,3 +45,7 @@ Usage -
 \tlpst playback {test_dir} [tests] [--diff=raw|rich|vim]  - Playback tests
 \tlpst rerecord {test_dir} [tests]  - Playback tests and edit failures"""
             )
+
+
+if __name__ == "__main__":
+    main()
