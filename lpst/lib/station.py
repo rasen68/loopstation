@@ -2,7 +2,7 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
-_MIN_WAIT = 0.001 # 1 ms
+_MIN_WAIT = 0.005 # seconds
 
 def child_execvp(argv: list[str]):
     ''' * argv: shell command and args to run               '''

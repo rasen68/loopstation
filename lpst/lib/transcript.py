@@ -60,8 +60,13 @@ class Transcript:
         else:
             return line.get_data()
 
-    def get_strs(self) -> list[str]:
-        return [line._to_str(times=False) for line in self._lines]
+    def get_strs(self, *, times=False, argv=False) -> list[str]:
+        lines = [line._to_str(times=times) for line in self._lines]
+        if argv: 
+            argv_line = "$ " + " ".join(f"[{arg}]" for arg in self.argv)
+            return [argv_line, *lines]
+        else:
+            return lines
 
     def print(self):
         print("--- LOOPSTATION: START TRANSCRIPT ---")

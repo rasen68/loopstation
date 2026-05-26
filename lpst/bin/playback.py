@@ -8,7 +8,9 @@ def playback(test_dir: str,
              *,
              diff: DiffMode = DiffMode.RAW,
              ):
-    tests = [t + '.lpst' if not t.endswith('.lpst') else t for t in tests]
+    for t in tests:
+        if not t.startswith('lpst.'): t = 'lpst.' + t
+        if not t.endswith('.json'): t = t + '.json'
     if not os.path.isdir(test_dir):
         sys.exit(f"Loopstation: {test_dir} is not a directory, exiting")
     elif not all(os.path.isfile(os.path.join(test_dir, t)) for t in tests):
