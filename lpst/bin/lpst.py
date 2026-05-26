@@ -7,21 +7,17 @@ from lpst.lib.diff import DiffMode
 
 DESCRIPTION = "CLI recorder for lazy tests"
 
-
 def _cmd_record(args: argparse.Namespace) -> None:
     try:
         record([args.program, *args.args])
     except KeyboardInterrupt:
         sys.stderr.write("\nLoopstation: Interrupted, exiting without recording\n")
 
-
 def _cmd_synthesize(_args: argparse.Namespace) -> None:
     print("WIP")
 
-
 def _cmd_playback(args: argparse.Namespace) -> None:
     playback(args.test_dir, args.tests, diff=DiffMode(args.diff))
-
 
 def _cmd_rerecord(_args: argparse.Namespace) -> None:
     print("WIP")
@@ -73,7 +69,6 @@ def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
     args.func(args)
-
 
 if __name__ == "__main__":
     main()
