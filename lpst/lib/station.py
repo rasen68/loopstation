@@ -2,7 +2,7 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
-_MIN_WAIT = 0.05 # seconds
+_MIN_WAIT = 0.1 # seconds
 
 def child_execvp(argv: list[str]):
     ''' * argv: shell command and args to run               '''
@@ -71,6 +71,7 @@ def playback_loop(master_fd: int,
                   r_transcript: Transcript,
                   ):
     stdin_queue = b""
+    time.sleep(_MIN_WAIT)
     try:
         while True:
             # readable, writeable, error

@@ -59,4 +59,5 @@ class DiffMode(Enum):
     RAW = raw_diff
     RICH = rich_diff
     VIM = vim_diff
-DIFF_MODE_STRS = "raw", "rich", "vim"
+    NONE = lambda x,y: None
+DIFF_MODE_STRS = "raw", "rich", "vim", "none"
