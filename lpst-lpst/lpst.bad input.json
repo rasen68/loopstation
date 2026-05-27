@@ -42,7 +42,112 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "3\n--- LOOPSTATION: RECORDING FINISHED ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
+    "data": "3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: RECORDING FINISHED ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "v\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: START TRANSCRIPT ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ [head] [-n] [3]\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "u> 1\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "u< 1\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "u> 2\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "u< 2\nu> 3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "u< 3\n--- LOOPSTATION: END TRANSCRIPT ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "V\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "blah\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": " \n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "S\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
   },
   {
     "prefix": "> ",
@@ -52,7 +157,12 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\nEnter test name - "
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Enter test name - "
   },
   {
     "prefix": "> ",
@@ -77,86 +187,11 @@
   {
     "prefix": "> ",
     "encoding": "u",
-    "data": "s\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Enter test name - "
-  },
-  {
-    "prefix": "> ",
-    "encoding": "u",
-    "data": "n 3\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "lpst.n 3.json already exists! Replace? [y/N] "
-  },
-  {
-    "prefix": "> ",
-    "encoding": "u",
-    "data": "jsdfj\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
-  },
-  {
-    "prefix": "> ",
-    "encoding": "u",
-    "data": "s\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Enter test name - "
-  },
-  {
-    "prefix": "> ",
-    "encoding": "u",
-    "data": "n 3\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "lpst.n 3.json already exists! Replace? [y/N] "
-  },
-  {
-    "prefix": "> ",
-    "encoding": "u",
-    "data": "\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
-  },
-  {
-    "prefix": "> ",
-    "encoding": "u",
     "data": "q\n"
   },
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "\nExiting without saving transcript"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "\n"
+    "data": "\nExiting without saving transcript\n"
   }
 ]

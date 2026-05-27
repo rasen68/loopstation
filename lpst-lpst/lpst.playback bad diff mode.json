@@ -3,7 +3,10 @@
     "argv": [
       "lpst",
       "playback",
-      "--diff=balh"
+      "head-lpst",
+      "license",
+      "--diff",
+      "blah"
     ]
   },
   {
@@ -14,6 +17,6 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "lpst playback: error: argument --diff: invalid choice: 'balh' (choose from 'raw', 'rich', 'vim', 'none')\n"
+    "data": "lpst playback: error: argument --diff: invalid choice: 'blah' (choose from 'raw', 'rich', 'vim', 'none')\n"
   }
 ]

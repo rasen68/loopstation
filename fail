@@ -1,0 +1,3 @@
+#!/bin/bash
+# Trivial script that we'll synthesize a failing lpst test for
+echo one two three four five

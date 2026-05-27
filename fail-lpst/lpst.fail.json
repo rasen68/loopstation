@@ -1,0 +1,12 @@
+[
+  {
+    "argv": [
+      "./fail"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "one two one four five\n"
+  }
+]

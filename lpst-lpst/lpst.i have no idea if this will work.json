@@ -1,0 +1,136 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "playback",
+      "fail-lpst",
+      "--diff",
+      "vim"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING PLAYBACK ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test fail-lpst/lpst.fail.json failed!\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "2 files to edit\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[?1006;1000h\u001b[?1002h\u001b[?1049h\u001b[22;0;0t\u001b[>4;2m\u001b[?1h\u001b=\u001b[?2004h\u001b[?1004h\u001b[1;24r\u001b[?12h\u001b[?12l\u001b[22;2t\u001b[22;1t"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[27m\u001b[23m\u001b[29m\u001b[m\u001b[97m\u001b[H\u001b[2J\u001b[?25l\u001b[24;1H\"/tmp/loopstation-diff-cm3rbhwc/expected\""
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": " 2L, 36B"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[24;33Hactual\" \u001b[24;41H\u001b[K"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[24;41H2L, 38B"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[2;1H\u25bd\u001b[6n\u001b[2;1H  \u001b[3;1H\u001bPzz\u001b\\\u001b[0%m\u001b[6n\u001b[3;1H           \u001b[1;1H\u001b[>c"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b]10;?\u0007\u001b]11;?\u0007"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[1;1H\u001b[96m\u001b[48;5;248m  \u001b[m\u001b[97m\u001b[38;5;229m1   \u001b[m\u001b[97m$ [./fail]\u001b[24C\u001b[7m|\u001b[m\u001b[97m\n\u001b[96m\u001b[48;5;248m  \u001b[m\u001b[97m\u001b[38;5;229m  1 \u001b[m\u001b[97m\u001b[45mu< one two \u001b[m\u001b[97m\u001b[1m\u001b[101mon\u001b[m\u001b[97m\u001b[45me four five          \u001b[m\u001b[97m\u001b[7m|\u001b[3;41H|\u001b[4;41H|\u001b[5;41H|\u001b[6;41H|\u001b[7;41H|\u001b[8;41H|\u001b[9;41H|\u001b[10;41H|\u001b[11;41H|\u001b[12;41H|\u001b[13;41H|\u001b[14;41H|\u001b[15;41H|\u001b[16;41H|\u001b[17;41H|\u001b[18;41H|\u001b[19;41H|\u001b[20;41H|\u001b[21;41H|\u001b[22;41H|\u001b[m\u001b[97m\u001b[3;1H\u001b[94m~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \n~                          "
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "             \n~                                       \n~                                       \n~                                       \n~                                       \n~                                       \u001b[m\u001b[97m\n\u001b[1m\u001b[7m<ff-cm3rbhwc/expected 1,1            All \u001b[m\u001b[97m\u001b[1;42H\u001b[96m\u001b[48;5;248m  \u001b[m\u001b[97m\u001b[38;5;229m1   \u001b[m\u001b[97m$ [./fail]\u001b[2;42H\u001b[96m\u001b[48;5;248m  \u001b[m\u001b[97m\u001b[38;5;229m  1 \u001b[m\u001b[97m\u001b[45mu< one two \u001b[m\u001b[97m\u001b[1m\u001b[101mthre\u001b[m\u001b[97m\u001b[45me four five       \u001b[m\u001b[97m\u001b[3;42H\u001b[94m~                                      \u001b[4;42H~                                      \u001b[5;42H~                                      \u001b[6;42H~                                      \u001b[7;42H~                                      \u001b[8;42H~                                      \u001b[9;42H~                                      \u001b[10;42H~                                      \u001b[11;42H~                                      \u001b[12;42H~                                      "
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[13;42H~                                      \u001b[14;42H~                                      \u001b[15;42H~                                      \u001b[16;42H~                                      \u001b[17;42H~                                      \u001b[18;42H~                                      \u001b[19;42H~                                      \u001b[20;42H~                                      \u001b[21;42H~                                      \u001b[22;42H~                                      \u001b[m\u001b[97m\u001b[23;42H\u001b[7m<iff-cm3rbhwc/actual 1,1            All\u001b]2;expected (/tmp/loopstation-diff-cm3rbhwc) (1 of 2) - VIM\u0007"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b]1;expected\u0007\u001b[1;7H\u001b[?25h\u001b[?4m"
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "\u001b[2;2R\u001b[3;1R\u001b[>1;4000;45c\u001b]10;rgb:dddd/dddd/dddd\u001b\\\u001b]11;rgb:0000/0000/0000\u001b\\:qa\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001bP+q436f\u001b\\\u001bP+q6b75\u001b\\\u001bP+q6b64\u001b\\\u001bP+q6b72\u001b\\\u001bP+q6b6c\u001b\\\u001bP+q2332\u001b\\\u001bP+q2334\u001b\\\u001bP+q2569\u001b\\\u001bP+q2a37\u001b\\\u001bP+q6b31\u001b\\"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001bP$q q\u001b\\\u001b[?12$p"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[?25l\u001b[m\u001b[97m\u001b[24;70H0\u001b[1;7H\u001b[24;71H0\u001b[1;7H\u001b[24;72H0\u001b[1;7H\u001b[24;73H/\u001b[1;7H\u001b[24;74H0\u001b[1;7H\u001b[24;75H0\u001b[1;7H\u001b[24;76H0\u001b[1;7H\u001b[24;77H0\u001b[1;7H\u001b[24;78H/\u001b[1;7H\u001b[24;79H0\u001b[1;7H\u001b[?25h"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[?25l\u001b[24;70H          \u001b[1;7H\u001b[24;1H\u001b[K\u001b[24;1H:qa"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\r\u001b[?1006;1000l\u001b[?1002l\u001b[?2004l\u001b[>4;m"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\r\u001b[>4;m\u001b[>4;2m\u001b[?2004h\u001b[>4;2m\u001b[?1006;1000h\u001b[?1002h"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\r\u001b]2;expected (/tmp/loopstation-diff-cm3rbhwc) (1 of 2) - VIM\u0007\u001b]1;expected\u0007"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\r\u001b[?1006;1000l\u001b[?1002l\u001b[?2004l\u001b[>4;m\u001b]2;lpst record -- lpst playback fail-lpst --diff vim\u0007\u001b]1;lpst record -- lpst playback fail-lpst --diff vim\u0007"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\r\u001b[23;2t\u001b[23;1t\u001b[22;2t\u001b[22;1t\u001b[23;2t\u001b[23;1t"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\r\u001b[24;1H\u001b[K\u001b[24;1H\u001b[?1004l\u001b[?2004l\u001b[?1l\u001b>\u001b[?1049l\u001b[23;0;0t\u001b[?25h\u001b[>4;m"
+  }
+]

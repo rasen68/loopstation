@@ -1,0 +1,20 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "playback",
+      "head-lpst",
+      "license"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING PLAYBACK ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test head-lpst/lpst.license.json passed!\n"
+  }
+]

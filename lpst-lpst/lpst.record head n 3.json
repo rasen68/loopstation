@@ -42,7 +42,12 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "3\n"
+    "data": "3"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\n"
   },
   {
     "prefix": "< ",
@@ -67,12 +72,27 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "$ [head] [-n] [3]\nu> 1\nu< 1\nu> 2\nu< 2\nu> 3\n"
+    "data": "$ [head] [-n] [3]\n"
   },
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "u< 3\n--- LOOPSTATION: END TRANSCRIPT ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
+    "data": "u> 1\nu< 1\nu> 2\nu< 2"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\nu> 3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "u< 3\n--- LOOPSTATION: END TRANSCRIPT ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
   },
   {
     "prefix": "> ",

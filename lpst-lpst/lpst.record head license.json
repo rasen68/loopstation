@@ -1,0 +1,56 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "record",
+      "--",
+      "head",
+      "./LICENSE"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING RECORDING ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: RECORDING FINISHED ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "s\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\nEnter test name - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "license\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "lpst.license.json already exists! Replace? [y/N] "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "y\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saved to lpst.license.json\n"
+  }
+]

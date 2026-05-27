@@ -1,0 +1,19 @@
+[
+  {
+    "argv": [
+      "head",
+      "-n",
+      "1"
+    ]
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "1\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "1\n"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "playback",
+      "fail-lpst",
+      "--diff",
+      "raw"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING PLAYBACK ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test fail-lpst/lpst.fail.json failed!\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- expected\n+++ actual\n@@ -1,2 +1,2 @@\n $ [./fail]\n-u< one two one four five\n+u< one two three four five\n"
+  }
+]
