@@ -9,21 +9,6 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "--- LOOPSTATION: STARTING PLAYBACK ---\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "LOOPSTATION: Test fail-lpst/lpst.fail.json failed!\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "--- expected\n+++ actual\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "@@ -1,2 +1,2 @@\n $ [./fail]\n-u< one two one four five\n+u< one two three four five\n"
+    "data": "--- LOOPSTATION: STARTING PLAYBACK ---\nLOOPSTATION: Test fail-lpst/lpst.fail.json failed!\n\u001b[1m  \u001b[0m\u001b[1mexpected                \u001b[0m\u001b[1m  \u001b[0m\u001b[1m  \u001b[0m\u001b[1mactual                    \u001b[0m\u001b[1m  \u001b[0m\n  $ [./fail]                  $ [./fail]                  \n  \u001b[37;48;5;88mu< one two one four five\u001b[0m    \u001b[37;48;5;22mu< one two three four five\u001b[0m  \n"
   }
 ]

@@ -1,0 +1,40 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "rerecord",
+      "--",
+      "fail-lpst"
+    ]
+  },
+  {
+    "prefix": "~ ",
+    "encoding": "t",
+    "data": 0.30660390853881836
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING RERECORD ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test fail-lpst/lpst.fail.json failed!\n"
+  },
+  {
+    "prefix": "~ ",
+    "encoding": "t",
+    "data": 0.2255570888519287
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\u001b[1m  \u001b[0m\u001b[1mexpected                \u001b[0m\u001b[1m  \u001b[0m\u001b[1m  \u001b[0m\u001b[1mactual                    \u001b[0m\u001b[1m  \u001b[0m\n  $ [./fail]                  $ [./fail]                  \n  \u001b[37;48;5;88mu< one two one four five\u001b[0m    \u001b[37;48;5;22mu< one two three four five\u001b[0m  \nReplace saved (expected) with new (actual)? [y/N] "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "nah\n"
+  }
+]
