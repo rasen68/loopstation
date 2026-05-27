@@ -4,7 +4,7 @@ from lpst.lib.station import child_execvp, record_loop
 
 def record(argv: list[str]):
     if not shutil.which(argv[0]):
-        sys.exit(f"Loopstation: File {program} not found, check $PATH?")
+        sys.exit(f"Loopstation: File {argv[0]} not found, check $PATH?")
     else:
         print("--- LOOPSTATION: STARTING RECORDING ---")
 
