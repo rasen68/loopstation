@@ -14,7 +14,7 @@ _HEX_RE = re.compile("[0-9a-f]*")
 class Prefix(StrEnum):
     INPUT = "> "
     OUTPUT = "< "
-    WAIT = "~ " # TODO: record wait
+    WAIT = "~ "
 
 class Encoding(StrEnum):
     UTF = "u"

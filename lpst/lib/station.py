@@ -103,6 +103,7 @@ def record_loop(master_fd: int, transcript: Transcript):
         if e.errno == IO_ERRNO: pass
         else: raise e
 
+# TODO: what to do about hangs?
 def playback_loop(master_fd: int,
                   p_transcript: Transcript,
                   r_transcript: Transcript,
