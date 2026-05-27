@@ -95,10 +95,11 @@ class Transcript:
         print("--- LOOPSTATION: END TRANSCRIPT ---")
 
     # FAR TODO: compact save instead of json
-    def save(self, filename: str):
+    def save(self, filename: str, *, overwrite: bool=False):
         argv = [{'argv': self.argv}]
         dicts = argv + [line.dict() for line in self._lines]
-        with open(filename, 'x') as f:
+        mode = 'w' if overwrite else 'x'
+        with open(filename, mode) as f:
             json.dump(dicts, f, indent=2)
 
     def __eq__(self, other) -> bool:
