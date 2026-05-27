@@ -4,7 +4,7 @@ from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
 # TODO: flag for min wait, or whether to follow r_transcript
-_MIN_WAIT = 0.075 # seconds
+_MIN_WAIT = 0.1 # seconds
 _WAIT_LENIENCE = 5 # wait lenience * actual wait = allowed wait
 _READ_SIZE = 1024
 
