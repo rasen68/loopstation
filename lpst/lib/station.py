@@ -61,7 +61,6 @@ def record_loop(master_fd: int, transcript: Transcript):
                 if not data: break # child died
                 data = stdout.check_echo(data)
 
-                stdin_queue, data = _check_echo(stdin_queue, data)
                 transcript.transcribe_output(data)
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
