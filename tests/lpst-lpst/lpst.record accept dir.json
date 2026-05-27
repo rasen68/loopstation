@@ -3,13 +3,16 @@
     "argv": [
       "lpst",
       "record",
-      "--dir",
-      "head-lpst",
       "--",
       "head",
       "-n",
       "3"
     ]
+  },
+  {
+    "prefix": "~ ",
+    "encoding": "t",
+    "data": 0.30989527702331543
   },
   {
     "prefix": "< ",
@@ -44,17 +47,17 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "3\n--- LOOPSTATION: RECORDING FINISHED ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
-  },
-  {
-    "prefix": "> ",
-    "encoding": "u",
-    "data": "v\n"
+    "data": "3\n"
   },
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "--- LOOPSTATION: START TRANSCRIPT ---\n$ [head] [-n] [3]\nu> 1\nu< 1\nu> 2\nu< 2\nu> 3\nu< 3\n--- LOOPSTATION: END TRANSCRIPT ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
+    "data": "--- LOOPSTATION: RECORDING FINISHED ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
   },
   {
     "prefix": "> ",
@@ -64,7 +67,22 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "Saving in directory head-lpst.\nEnter test name - "
+    "data": "Save in directory [/home/rui/Downloads/program/loopstation/tests/head-lpst]: "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/tests/head-lpst.\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Enter test name - "
   },
   {
     "prefix": "> ",
@@ -84,6 +102,11 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "Saved to lpst.n 3.json\n"
+    "data": "Saved to lpst.n 3.json"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\n"
   }
 ]

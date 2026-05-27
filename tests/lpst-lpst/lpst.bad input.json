@@ -3,6 +3,8 @@
     "argv": [
       "lpst",
       "record",
+      "--dir",
+      "head-lpst",
       "--",
       "head",
       "-n",
@@ -112,7 +114,7 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "Saving in directory /home/rui/Downloads/program/loopstation/tests/head-lpst.\nEnter test name - "
+    "data": "Saving in directory head-lpst.\nEnter test name - "
   },
   {
     "prefix": "> ",

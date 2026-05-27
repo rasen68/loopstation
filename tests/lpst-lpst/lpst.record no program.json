@@ -8,11 +8,6 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "usage: lpst record [-h] program [args ...]\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "lpst record: error: the following arguments are required: program\n"
+    "data": "usage: lpst record [-h] [-d DIR] program [args ...]\nlpst record: error: the following arguments are required: program\n"
   }
 ]

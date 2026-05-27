@@ -9,6 +9,6 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "usage: lpst record [-h] program [args ...]\n\npositional arguments:\n  program     Program to record\n  args        Arguments for the program\n\noptions:\n  -h, --help  show this help message and exit\n"
+    "data": "usage: lpst record [-h] [-d DIR] program [args ...]\n\npositional arguments:\n  program            Program to record\n  args               Arguments for the program\n\noptions:\n  -h, --help         show this help message and exit\n  -d DIR, --dir DIR  Directory to save test (default: ./{program}-lpst)\n"
   }
 ]
