@@ -68,6 +68,9 @@ class Transcript:
     def transcribe_output(self, data: bytes):
         self._transcribe(Prefix.OUTPUT, data)
 
+    def transcribe_wait(self, data: float):
+        line = LpstLine(Prefix.WAIT, Encoding.TIME, data)
+
     def get_next_input(self) -> bytes | int: # input bytes or wait time
         line = next(self._input_iter, None)
         if line is None:

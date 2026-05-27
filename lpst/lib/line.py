@@ -6,8 +6,8 @@ import re
 def _is_str(obj) -> bool:
     return isinstance(obj, str)
 
-def _is_int(obj) -> bool:
-    return isinstance(obj, int)
+def _is_float(obj) -> bool:
+    return isinstance(obj, float)
 
 _HEX_RE = re.compile("[0-9a-f]*")
 
@@ -19,20 +19,20 @@ class Prefix(StrEnum):
 class Encoding(StrEnum):
     UTF = "u"
     HEX = "x"
-    TIME = "t" # ms
+    TIME = "t" # s
 
 @dataclass
 class LpstLine:
     prefix: str
     encoding: str
-    data: str | int # int for time
+    data: str | float # float for time
 
     # called after @dataclass __init__
     def __post_init__(self):
         # assertions for wait and hex
         if self.is_wait():
             assert self.encoding == Encoding.TIME
-            assert _is_int(self.data)
+            assert _is_float(self.data)
         else:
             assert _is_str(self.data)
             if self.encoding == Encoding.HEX:

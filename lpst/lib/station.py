@@ -4,6 +4,7 @@ from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
 _MIN_WAIT = 0.2 # seconds
+_WAIT_LENIENCE = 4 # wait lenience * actual wait = allowed wait
 _READ_SIZE = 1024
 
 def child_execvp(argv: list[str]):
@@ -21,6 +22,8 @@ class LpstReader:
     def __init__(self, fd: int) -> LpstReader:
         self.fd = fd
         self.echo = b''
+        self.time = time.time()
+        self.wait = 0
         self._cr = False
 
     def read(self) -> bytes:
@@ -36,6 +39,14 @@ class LpstReader:
 
     def add_echo(self, data: bytes):
         self.echo += data
+
+    def set_time(self):
+        self.time = time.time()
+
+    def check_time(self) -> bool:
+        self.wait = (time.time() - self.time) * _WAIT_LENIENCE
+        self.set_time()
+        return self.wait > _MIN_WAIT
 
     def check_echo(self, data: bytes) -> bytes:
         if self.echo.startswith(data):
@@ -61,6 +72,10 @@ def record_loop(master_fd: int, transcript: Transcript):
                 if not data: break # child died
                 data = stdout.check_echo(data)
 
+                # check for long delay
+                if stdout.check_time():
+                    transcript.transcribe_wait(stdout.wait)
+
                 transcript.transcribe_output(data)
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
@@ -71,6 +86,7 @@ def record_loop(master_fd: int, transcript: Transcript):
                 os.write(master_fd, data)
                 transcript.transcribe_input(data)
                 stdout.add_echo(data)
+                stdout.set_time()
 
     except OSError as e:
         if e.errno == IO_ERRNO: pass
@@ -103,7 +119,7 @@ def playback_loop(master_fd: int,
                 elif isinstance(data, int):
                     # Check for end input sentinel
                     if data == Transcript.END_INPUT: break
-                    time.sleep(data / 1000)
+                    time.sleep(data)
     except OSError as e:
         if e.errno == IO_ERRNO: pass
         else: raise e
