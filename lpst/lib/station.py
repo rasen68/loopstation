@@ -24,18 +24,28 @@ class LpstReader:
         self.echo = b''
         self.time = time.time()
         self.wait = 0
-        self._cr = False
+        self._deferred = b''
 
     def read(self) -> bytes:
-        data = os.read(self.fd, _READ_SIZE)
-        data = data.replace(b'\r\n', b'\n')
-        # Deal with possible split \r\n across reads
-        if self._cr and not data.startswith(b'\n'):
-            data = b'\r' + data
-        if data.endswith(b'\r'):
-            data = data.removesuffix(b'\r')
-            self._cr = True
-        return data
+        while True:
+            chunk = os.read(self.fd, _READ_SIZE)
+            if not chunk:
+                if self._deferred:
+                    data = self._deferred.replace(b'\r\n', b'\n').removesuffix(b'\r')
+                    self._deferred = b''
+                    return data
+                return b''
+
+            if self._deferred:
+                chunk = self._deferred + chunk
+                self._deferred = b''
+
+            chunk = chunk.replace(b'\r\n', b'\n')
+            if chunk.endswith(b'\r'):
+                self._deferred = chunk
+                continue
+
+            return chunk
 
     def add_echo(self, data: bytes):
         self.echo += data
