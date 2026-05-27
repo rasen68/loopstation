@@ -66,6 +66,14 @@ def record_loop(master_fd: int, transcript: Transcript):
             # readable, writeable, error
             r, _w, _e = select.select([master_fd, sys.stdin], [], [])
 
+            # our stdin, send to child (before stdout so echo is buffered)
+            if sys.stdin in r:
+                data = stdin.read()
+                os.write(master_fd, data)
+                transcript.transcribe_input(data)
+                stdout.add_echo(data)
+                stdout.set_time()
+
             # child stdout, send to transcript and user stdout
             if master_fd in r:
                 data = stdout.read()
@@ -79,14 +87,6 @@ def record_loop(master_fd: int, transcript: Transcript):
                 transcript.transcribe_output(data)
                 sys.stdout.buffer.write(data)
                 sys.stdout.buffer.flush()
-
-            # our stdin, send to child
-            if sys.stdin in r:
-                data = stdin.read()
-                os.write(master_fd, data)
-                transcript.transcribe_input(data)
-                stdout.add_echo(data)
-                stdout.set_time()
 
     except OSError as e:
         if e.errno == IO_ERRNO: pass
