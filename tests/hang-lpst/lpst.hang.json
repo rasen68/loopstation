@@ -1,0 +1,12 @@
+[
+  {
+    "argv": [
+      "./hang"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "bear with me...\n"
+  }
+]

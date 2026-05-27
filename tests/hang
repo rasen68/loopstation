@@ -1,0 +1,4 @@
+#!/bin/bash
+# Trivial script that hangs forever
+echo bear with me...
+while true; do x=1; done
