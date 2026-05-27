@@ -8,11 +8,6 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "usage: lpst playback [-h] [--diff {raw,rich,vim,none}] test_dir [tests ...]\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "lpst playback: error: the following arguments are required: test_dir\n"
+    "data": "usage: lpst playback [-h] [--diff {rich,raw,vim,none}] test_dir [tests ...]\nlpst playback: error: the following arguments are required: test_dir\n"
   }
 ]

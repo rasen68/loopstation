@@ -3,7 +3,7 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
-_MIN_WAIT = 0.2 # seconds
+_MIN_WAIT = 0.05 # seconds
 _WAIT_LENIENCE = 4 # wait lenience * actual wait = allowed wait
 _READ_SIZE = 1024
 
@@ -116,10 +116,10 @@ def playback_loop(master_fd: int,
                     os.write(master_fd, data)
                     p_transcript.transcribe_input(data)
                     stdout.add_echo(data)
-                elif isinstance(data, int):
-                    # Check for end input sentinel
-                    if data == Transcript.END_INPUT: break
+                elif isinstance(data, float):
                     time.sleep(data)
+                elif data == Transcript.END_INPUT:
+                    break
     except OSError as e:
         if e.errno == IO_ERRNO: pass
         else: raise e

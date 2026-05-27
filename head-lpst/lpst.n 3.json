@@ -34,11 +34,6 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "3"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "\n"
+    "data": "3\n"
   }
 ]
