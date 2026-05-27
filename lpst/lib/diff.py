@@ -30,7 +30,7 @@ def rich_diff(expected: Transcript, actual: Transcript) -> None:
         fillvalue="",
     ):
         if exp == act:
-            table.add_row(exp, act)
+            table.add_row(Text(exp or "·"), Text(act or "·"))
         else:
             exp_style = "white on dark_red" if exp else "dim"
             act_style = "white on dark_green" if act else "dim"
@@ -56,8 +56,8 @@ def vim_diff(expected: Transcript, actual: Transcript) -> None:
                     shlex.quote(actual_path)])
 
 class DiffMode(Enum):
-    RAW = raw_diff
     RICH = rich_diff
+    RAW = raw_diff
     VIM = vim_diff
     NONE = lambda x,y: None
-DIFF_MODE_STRS = "raw", "rich", "vim", "none"
+DIFF_MODE_STRS = "rich", "raw", "vim", "none"
