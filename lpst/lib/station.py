@@ -3,7 +3,7 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
-_MIN_WAIT = 0.05 # seconds
+_MIN_WAIT = 0.15 # seconds
 _WAIT_LENIENCE = 4 # wait lenience * actual wait = allowed wait
 _READ_SIZE = 1024
 
