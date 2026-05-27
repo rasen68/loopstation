@@ -54,6 +54,13 @@ class Transcript:
     def rechunk(self):
         line_ptr = 1
         while line_ptr < len(self._lines):
+            # strip waits
+            while self._lines[line_ptr].is_wait():
+                self._lines.pop(line_ptr)
+                if line_ptr == len(self._lines):
+                    return
+
+            # merge!
             first, second = self._lines[line_ptr-1:line_ptr+1]
             if first.prefix == second.prefix:
                 first += second

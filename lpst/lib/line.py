@@ -64,7 +64,7 @@ class LpstLine:
             case Encoding.TIME:
                 if not times:
                     return ''
-                data = str(round(self.data, 1)) + '\n'
+                data = str(round(self.data, 1))
             case _:
                 data = self._data_processed()
         return str(self.encoding) + str(self.prefix) + data

@@ -4,7 +4,7 @@ from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
 _MIN_WAIT = 0.15 # seconds
-_WAIT_LENIENCE = 4 # wait lenience * actual wait = allowed wait
+_WAIT_LENIENCE = 5 # wait lenience * actual wait = allowed wait
 _READ_SIZE = 1024
 
 def child_execvp(argv: list[str]):
@@ -107,6 +107,7 @@ def playback_loop(master_fd: int,
                   r_transcript: Transcript,
                   ):
     stdout = LpstReader(master_fd)
+    input_done = False
     try:
         while True:
             # readable, writeable, error
@@ -120,7 +121,7 @@ def playback_loop(master_fd: int,
                 p_transcript.transcribe_output(data)
 
             # ask for stdin if we don't have stdout after _MIN_WAIT
-            else:
+            elif not input_done:
                 data = r_transcript.get_next_input()
                 if isinstance(data, bytes) and data:
                     os.write(master_fd, data)
@@ -129,7 +130,7 @@ def playback_loop(master_fd: int,
                 elif isinstance(data, float):
                     time.sleep(data)
                 elif data == Transcript.END_INPUT:
-                    break
+                    input_done = True
     except OSError as e:
         if e.errno == IO_ERRNO: pass
         else: raise e
