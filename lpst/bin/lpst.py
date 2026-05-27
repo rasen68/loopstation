@@ -9,7 +9,7 @@ DESCRIPTION = "CLI recorder for lazy tests"
 
 def _cmd_record(args: argparse.Namespace) -> None:
     try:
-        record([args.program, *args.args])
+        record([args.program, *args.args], save_dir=args.dir)
     except KeyboardInterrupt:
         sys.stderr.write("\nInterrupted, exiting without recording\n")
 
@@ -30,6 +30,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     record = subparsers.add_parser("record", help="Record a test")
+    record.add_argument("-d", "--dir",
+                        help="Directory to save test (default: ./{program}-lpst)")
     record.add_argument("program", help="Program to record")
     record.add_argument("args", nargs="*", default=[],
                         help="Arguments for the program")

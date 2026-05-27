@@ -2,7 +2,10 @@ import os, pty, sys, shutil
 from lpst.lib.transcript import Transcript
 from lpst.lib.station import child_execvp, record_loop
 
-def record(argv: list[str]):
+def default_save_dir(program: str) -> str:
+    return os.path.join(os.getcwd(), program + '-lpst')
+
+def record(argv: list[str], *, save_dir: str | None = None):
     if not shutil.which(argv[0]):
         sys.exit(f"Loopstation: File {argv[0]} not found, check $PATH?")
     else:
@@ -21,9 +24,13 @@ def record(argv: list[str]):
     # otherwise, we're parent
     record_loop(master_fd, transcript)
     print("--- LOOPSTATION: RECORDING FINISHED ---")
-    finish_recording(argv[0], transcript)
+    finish_recording(argv[0], transcript, save_dir=save_dir)
 
-def finish_recording(program: str, transcript: Transcript):
+def finish_recording(program: str,
+                     transcript: Transcript,
+                     *,
+                     save_dir: str | None = None,
+                     ):
     while True:
         match input("Loopstation: [s]ave/[v]iew recording/[q]uit - "):
             case 'v':
@@ -32,16 +39,17 @@ def finish_recording(program: str, transcript: Transcript):
                 print("\nExiting without saving transcript")
                 return
             case 's':
-                # TODO: how to conveniently ask user for default dir
-                # lpst record [-d {dir}] {program}?
-                default_dir = os.path.join(os.getcwd(), program + '-lpst')
-                os.makedirs(default_dir, exist_ok=True)
-                print(f"Saving in directory {default_dir}.")
+                if save_dir is None:
+                    default = default_save_dir(program)
+                    reply = input(f"Save in directory [{default}]: ").strip()
+                    save_dir = reply or default
+                os.makedirs(save_dir, exist_ok=True)
+                print(f"Saving in directory {save_dir}.")
                 while not (name := input("Enter test name - ")):
                     pass
                 try:
                     filename = "lpst." + name + '.json'
-                    fullname = os.path.join(default_dir, filename)
+                    fullname = os.path.join(save_dir, filename)
                     transcript.save(fullname)
                     print(f"Saved to {filename}")
                     return
