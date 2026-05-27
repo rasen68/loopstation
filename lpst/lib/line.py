@@ -80,11 +80,6 @@ class LpstLine:
         else: # one of them is hex
             self_data = self.data if self.is_hex() else self.data.encode().hex()
             other_data = other.data if other.is_hex() else other.data.encode().hex()
-
-            # Evil edge case where a \r\n is split across reads
-            if self_data.endswith('0d') and other_data.startswith('0a'):
-                self_data = self_data.removesuffix('0d')
-
             data = self_data + other_data
             return LpstLine(self.prefix, Encoding.HEX, data)
 
