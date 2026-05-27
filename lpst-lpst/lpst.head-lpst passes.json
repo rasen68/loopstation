@@ -1,0 +1,39 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "playback",
+      "head-lpst"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING PLAYBACK ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test head-lpst/lpst.n 3.json passed!\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test head-lpst/lpst.template.c.json passed!\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test head-lpst/lpst.head file no stdin.json passed!\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test head-lpst/lpst.cuneiform.json passed!\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LOOPSTATION: Test head-lpst/lpst.rare fish.json passed!\n"
+  }
+]

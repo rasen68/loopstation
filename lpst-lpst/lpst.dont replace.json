@@ -1,0 +1,162 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "record",
+      "--",
+      "head",
+      "-n",
+      "3"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING RECORDING ---\n"
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "1\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "1\n"
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "2\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "2\n"
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "3\n--- LOOPSTATION: RECORDING FINISHED ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "s\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\nEnter test name - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "n 3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "lpst.n 3.json already exists! Replace? [y/N] "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "n\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "s\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Enter test name - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "n 3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "lpst.n 3.json already exists! Replace? [y/N] "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "jsdfj\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "s\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Enter test name - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "n 3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "lpst.n 3.json already exists! Replace? [y/N] "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "q\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\nExiting without saving transcript"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "\n"
+  }
+]

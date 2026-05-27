@@ -1,0 +1,107 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "record",
+      "--",
+      "head",
+      "-n",
+      "3"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: STARTING RECORDING ---\n"
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "1\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "1\n"
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "2\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "2\n"
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: RECORDING FINISHED ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "v\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "--- LOOPSTATION: START TRANSCRIPT ---\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ [head] [-n] [3]\nu> 1\nu< 1\nu> 2\nu< 2\nu> 3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "u< 3\n--- LOOPSTATION: END TRANSCRIPT ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "s\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/head-lpst.\nEnter test name - "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "n 3\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "lpst.n 3.json already exists! Replace? [y/N] "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "y\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "Saved to lpst.n 3.json\n"
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "--help"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "usage: lpst [-h] {record,synthesize,playback,rerecord} ...\n\nCLI recorder for lazy tests\n\npositional arguments:\n  {record,synthesize,playback,rerecord}\n    record              Record a test\n    synthesize          Manually write a transcript\n    playback            Playback tests\n    rerecord            Playback tests and edit failures\n\noptions:\n  -h, --help            show this help message and exit\n"
+  }
+]

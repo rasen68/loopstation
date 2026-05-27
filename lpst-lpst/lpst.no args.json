@@ -1,0 +1,17 @@
+[
+  {
+    "argv": [
+      "lpst"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "usage: lpst [-h] {record,synthesize,playback,rerecord} ...\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "lpst: error: the following arguments are required: command\n"
+  }
+]

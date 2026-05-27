@@ -1,0 +1,18 @@
+[
+  {
+    "argv": [
+      "lpst",
+      "record"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "usage: lpst record [-h] program [args ...]\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "lpst record: error: the following arguments are required: program\n"
+  }
+]

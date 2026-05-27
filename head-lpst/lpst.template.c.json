@@ -1,0 +1,13 @@
+[
+  {
+    "argv": [
+      "head",
+      "/home/rui/.template.c"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <math.h>\n\n#define ONE 1\n\nint main() {\n\tfloat one = 1.0;\n\tif (ONE + one == 2) {\n"
+  }
+]

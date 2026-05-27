@@ -3,7 +3,7 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
-_MIN_WAIT = 0.1 # seconds
+_MIN_WAIT = 0.2 # seconds
 _READ_SIZE = 1024
 
 def child_execvp(argv: list[str]):
