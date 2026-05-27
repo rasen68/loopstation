@@ -1,6 +1,7 @@
 import sys, argparse
 
 from lpst.bin.playback import playback
+from lpst.bin.rerecord import rerecord
 from lpst.bin.record import record
 from lpst.lib.diff import DiffMode, DIFF_MODE_STRS
 
@@ -19,8 +20,9 @@ def _cmd_playback(args: argparse.Namespace) -> None:
     diff_mode = getattr(DiffMode, args.diff.upper())
     playback(args.test_dir, args.tests, diff=diff_mode)
 
-def _cmd_rerecord(_args: argparse.Namespace) -> None:
-    print("WIP")
+def _cmd_rerecord(args: argparse.Namespace) -> None:
+    diff_mode = getattr(DiffMode, args.diff.upper())
+    rerecord(args.test_dir, args.tests, diff=diff_mode)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -51,6 +53,9 @@ def build_parser() -> argparse.ArgumentParser:
     rerecord.add_argument("test_dir", help="Directory containing test files")
     rerecord.add_argument("tests", nargs="*", default=[],
         help="Test names (default: all tests in directory)")
+    rerecord.add_argument("--diff",
+                          choices=DIFF_MODE_STRS, default=DIFF_MODE_STRS[0],
+                          help="Diff format on failure (default: %(default)s)")
     rerecord.set_defaults(func=_cmd_rerecord)
 
     return parser
