@@ -1,0 +1,77 @@
+[
+  {
+    "argv": [
+      "sh"
+    ]
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "cd ~/Downloads/program/loopstation\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "ls\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "LICENSE  lpst  lpstvenv  __pycache__  pyproject.toml  README.md  tests\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "cd lpst\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "ls\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "bin  __init__.py  lib  __pycache__\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "cat __init__.py\n"
+  },
+  {
+    "prefix": "< ",
+    "encoding": "u",
+    "data": "$ "
+  },
+  {
+    "prefix": "> ",
+    "encoding": "u",
+    "data": "exit\n"
+  }
+]

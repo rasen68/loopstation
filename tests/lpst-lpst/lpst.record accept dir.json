@@ -10,11 +10,6 @@
     ]
   },
   {
-    "prefix": "~ ",
-    "encoding": "t",
-    "data": 0.30989527702331543
-  },
-  {
     "prefix": "< ",
     "encoding": "u",
     "data": "--- LOOPSTATION: STARTING RECORDING ---\n"
@@ -47,17 +42,7 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "3\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "--- LOOPSTATION: RECORDING FINISHED ---\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Loopstation: [s]ave/[v]iew recording/[q]uit - "
+    "data": "3\n--- LOOPSTATION: RECORDING FINISHED ---\nLoopstation: [s]ave/[v]iew recording/[q]uit - "
   },
   {
     "prefix": "> ",
@@ -77,12 +62,7 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "Saving in directory /home/rui/Downloads/program/loopstation/tests/head-lpst.\n"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "Enter test name - "
+    "data": "Saving in directory /home/rui/Downloads/program/loopstation/tests/head-lpst.\nEnter test name - "
   },
   {
     "prefix": "> ",
@@ -102,11 +82,6 @@
   {
     "prefix": "< ",
     "encoding": "u",
-    "data": "Saved to lpst.n 3.json"
-  },
-  {
-    "prefix": "< ",
-    "encoding": "u",
-    "data": "\n"
+    "data": "Saved to lpst.n 3.json\n"
   }
 ]
