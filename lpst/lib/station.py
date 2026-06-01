@@ -3,10 +3,19 @@ import os, sys, select, signal, time, termios, tty
 from errno import EIO as IO_ERRNO
 from lpst.lib.transcript import Transcript
 
-# TODO: flag for min wait, or whether to follow r_transcript
-_MIN_WAIT = 0.1 # seconds
+# TODO: cli --min-wait option, or whether to follow r_transcript
+# In fact we could even just send all the input and test only output
+
+# Note: following is technically incorrect, since if r_transcript
+# has an input next we'll send our input immediately, but the real
+# next output may have been coming, thus causing the wrong ordering
+
+# Solution: Tests that fail only due to order can have a note suggesting
+# to try again with higher --min-wait
+# Or, just a flag to ignore order
+_MIN_WAIT = 0.1 # seconds to wait for output before sending input
 _WAIT_LENIENCE = 5 # wait lenience * actual wait = allowed wait
-_READ_SIZE = 1024
+_READ_SIZE = 1024 # bytes
 
 def child_execvp(argv: list[str]):
     ''' * argv: shell command and args to run               '''

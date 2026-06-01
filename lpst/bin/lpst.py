@@ -10,6 +10,7 @@ DESCRIPTION = "CLI recorder for lazy tests"
 def _cmd_record(args: argparse.Namespace) -> None:
     try:
         record([args.program, *args.args], save_dir=args.dir)
+    # TODO: send sigint to child process instead
     except KeyboardInterrupt:
         sys.stderr.write("\nInterrupted, exiting without recording\n")
 
