@@ -1,4 +1,4 @@
-import os, pty, sys, shutil
+import os, pty, sys, shutil, readline
 from lpst.lib.transcript import Transcript
 from lpst.lib.station import child_execvp, record_loop
 

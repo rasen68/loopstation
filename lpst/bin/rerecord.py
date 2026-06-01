@@ -1,3 +1,5 @@
+import readline # nicer input
+
 from lpst.bin.playback import iter_tests, playback_one
 from lpst.lib.diff import DiffMode
 
