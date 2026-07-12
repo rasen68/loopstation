@@ -2,5 +2,9 @@ __pycache__/*
 __pycache__
 *.swp
 *.swo
+*.pyc
 .old.py
-lpstvenv
+.venv
+
+# very wip rewrite attempt
+lpst-rust
