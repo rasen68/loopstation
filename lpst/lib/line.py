@@ -83,10 +83,11 @@ class LpstLine:
             data = self_data + other_data
             return LpstLine(self.prefix, Encoding.HEX, data)
 
-    def __iadd__(self, other: LpstLine):
+    def __iadd__(self, other: LpstLine) -> LpstLine:
         new_line = self + other
         self.encoding = new_line.encoding
         self.data = new_line.data
+        return self
 
     def dict(self) -> dict[str, str | int]:
         return asdict(self)
