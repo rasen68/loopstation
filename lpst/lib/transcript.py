@@ -46,7 +46,10 @@ class Transcript:
         except UnicodeDecodeError:
             line.data = data.hex()
             line.encoding = Encoding.HEX
-        self._lines.append(line)
+        if self._lines and self._lines[-1].prefix == prefix:
+            self._lines[-1] += line
+        else:
+            self._lines.append(line)
 
     def _get_line(self, i: int) -> LpstLine:
         return self._lines[i]
