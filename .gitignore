@@ -5,6 +5,3 @@ __pycache__
 *.pyc
 .old.py
 .venv
-
-# very wip rewrite attempt
-lpst-rust
